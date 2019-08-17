@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Humphries</title>
+
+    <!-- Metadata -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Data Driven Documents -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- U.S.C. Decorations -->
+    <link rel="stylesheet" type="text/css" href="https://humphries-inf554.s3-us-west-1.amazonaws.com/viterbi_3.css" />
+    <link rel="shortcut icon" href="https://www.usc.edu/favicon.ico" />
+    <link rel="favicon" href="https://www.usc.edu/favicon.ico" />
+
+    <!-- sae_hidden_or_visible_2:  Show and hide rows of the webpage to avoid scrolling. -->
+    <script>
+        function sae_hidden_or_visible_2(row_id) {
+
+            // Get references to all of the rows.
+            var assignment = document.getElementById("assignment")
+            var inkscape = document.getElementById("inkscape")
+            var svg = document.getElementById("svg")
+            var series = document.getElementById("series")
+
+            // Hide all rows.
+            assignment.className = "row hidden"
+            inkscape.className = "row hidden"
+            svg.className = "row hidden"
+            series.className = "row hidden"
+
+            // Unhide the selected row.
+            switch (row_id) {
+                case "assignment":
+                    assignment.className = "row visible"
+                    break
+                case "inkscape":
+                    inkscape.className = "row visible"
+                    break
+                case "svg":
+                    svg.className = "row visible"
+                    break
+                case "series":
+                    series.className = "row visible"
+                    break
+                default:
+                    assignment.className = "row visible"
+                    inkscape.className = "row visible"
+                    svg.className = "row visible"
+                    series.className = "row visible"
+                    break
+            }
+        }
+    </script>
+
+    <!-- Energy Per Capita Using SVG -->
+    <script>
+        // Get the data from Google Sheets for the selected year and then either enter or update D3 components.
+        function draw_total_energy_by_production_and_import(year) {
+
+            // Global parameters accessible from either the enter or update function.
+            runtime_parameters = {
+                chart_width: 1100,
+                chart_height: 600,
+                left_margin: 100,
+                bottom_margin: 50,
+                top_margin: 50,
+                right_margin: 200,
+                min_circle: 5,
+                max_circle: 50,
+                max_production: 12000,          // Hardcoded to have consistency across years.
+                min_production: 0,              // Hardcoded to have consistency across years.
+                max_import: 2000,               // Hardcoded to have consistency across years.
+                min_import: -6000,              // Hardcoded to have consistency across years.
+                min_per_capita: 0,              // Hardcoded to have consistency across years.
+                max_per_capita: 120,            // Hardcoded to have consistency across years.
+                country_index: 0,               // Columns in the datatable.
+                stock_index: 1,
+                imports_index: 2,
+                production_index: 3,
+                percapita_index: 4,
+                total_index: 5
+            }
+
+            // Adjust runtime parameters based on context.
+            runtime_parameters.chart_width = window.innerWidth * (8 / 12)
+            runtime_parameters.chart_height = window.innerHeight * (8 / 12)
+            runtime_parameters.max_circle = runtime_parameters.chart_height / 20
+
+            // Year will be undefined on initial load.
+            if ((typeof year) == "undefined") {
+                var selected_year = 1990
+            } else {
+                selected_year = year
+            }
+
+            switch (selected_year) {
+                case 1990:
+                    var s = "Venezuela by far has most energy per capita.  "
+                    s = s + "Brazil, with large production and imports, is only on par with Chile."
+                    ta03.innerHTML = s
+                    break
+                case 1995:
+                    ta03.innerHTML = "Chile advances, surpassing Brazil and nearly matches Argentina."
+                    break
+                case 2000:
+                    ta03.innerHTML = 'Like Chile in 1995, Argentina is also increasing.'
+                    break
+                case 2005:
+                    ta03.innerHTML = 'Gains made by Chile and Argentina.  Loss for Venezuela.'
+                    break
+                case 2010:
+                    ta03.innerHTML = 'Gains by all large markes:  Chile, Argentina, Venezuela, and Brazil.'
+                    break
+                case 2014:
+                    ta03.innerHTML = 'Venezuela drastically declines to the levels of Chile and Argentina.'
+                    break
+                case 2015:
+                    ta03.innerHTML = 'Venezuela continues to decline as Chile, Argentina, and finally Brazil advance.'
+                    break
+                case 2016:
+                    ta03.innerHTML = 'Venezuela significantly falters whereas Chile and Argentina become dominant.'
+                    break
+            }
+
+            // Query data from Google Sheets.
+            var url = 'https://docs.google.com/spreadsheets/d/1CeiVB_u3H8lGjD9KlxkKzsdhivRMPKF0D8XT2qAzt0Y/edit?usp=sharing'
+
+            // A Year
+            // B Country
+            // C Series
+            // D Value
+
+            var s = 'SELECT B, SUM(D) '
+            s = s + 'WHERE (A = ' + selected_year + ') '
+            s = s + 'and (B <> "South America") '
+            s = s + 'and (B <> "Guyana") '
+            s = s + 'and (B <> "Suriname") '
+            s = s + 'group by B '
+            // s = s + 'order by B '
+            s = s + 'pivot C'
+            var queryString = encodeURIComponent(s)
+
+            query = new google.visualization.Query(url + '&gid=703773082&headers=1&tq=' + queryString)
+
+            // Update if a previous chart exists.  Otherwise, build a new chart.
+            if ((typeof g_svg) == "undefined") {
+                query.send(enter_total_energy_by_production_and_imports);
+            } else {
+                query.send(update_total_energy_by_production_and_imports);
+            }
+        }
+
+        // Build a new chart from the data from Google Sheets for the default year.
+        function enter_total_energy_by_production_and_imports(response) {
+
+            // Check for a successful query.
+            if (response.isError()) {
+                console.log('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage())
+                return
+            }
+
+            // Get runtime parameters.
+            var rt = runtime_parameters;
+
+            // Chart Attributes
+            var chart_width = rt.chart_width
+            var chart_height = rt.chart_height
+            var left_margin = rt.left_margin
+            var bottom_margin = rt.bottom_margin
+            var top_margin = rt.top_margin
+            var right_margin = rt.right_margin
+            var min_circle = rt.min_circle
+            var max_circle = rt.max_circle
+            var max_production = rt.max_production
+            var min_production = rt.min_production
+            var min_import = rt.min_import
+            var max_import = rt.max_import
+            var max_per_capita = rt.max_per_capita
+            var min_per_capita = rt.min_per_capita
+
+            // Data Table Attributes
+            var country_index = rt.country_index
+            var stock_index = rt.stock_index
+            var imports_index = rt.imports_index
+            var production_index = rt.production_index
+            var percapita_index = rt.percapita_index
+            var total_index = rt.total_index
+
+            // Pull the Data Table from the Google Sheets Response.
+            var dataTable = response.getDataTable()
+
+            // Build circle table.
+            var numberOfRows = dataTable.getNumberOfRows()
+            var numberOfColumns = dataTable.getNumberOfColumns()
+            var circle_table = []
+            for (var i = 0; i < numberOfRows; i++) {
+                var circle_row = []
+                for (var j = 0; j < numberOfColumns; j++) {
+                    var s = dataTable.getValue(i, j)
+                    circle_row.push(s)
+                }
+                circle_table.push(circle_row)
+            }
+
+            // Define Production Scale.
+            var production_scale = d3.scaleLinear()
+                .domain([min_production - 1000, max_production + 1000])
+                .range([left_margin, chart_width - right_margin])
+
+            // Define Import Scale 
+            var imports_scale = d3.scaleLinear()
+                .domain([min_import - 1000, max_import + 1000])
+                .range([top_margin, chart_height - bottom_margin])
+
+            // Define Per Capita Scale
+            var percapita_scale = d3.scaleLinear()
+                .domain([min_per_capita, max_per_capita])
+                .range([min_circle, max_circle])
+                .nice()
+
+            // Add the svg to the drawing division.
+            g_svg = d3.select("#drawing")
+                .append("svg")
+                .attr("width", chart_width)
+                .attr("height", chart_height)
+
+            // Line for import/export separation.
+            g_svg.append("line")
+                .attr("id", "import_export_line")
+                .attr("x1", left_margin.toString())
+                .attr("y1", imports_scale(0).toString())
+                .attr("x2", (chart_width - right_margin).toString())
+                .attr("y2", imports_scale(0).toString())
+                .attr("stroke", "green")
+                .attr("stroke-width", "20")
+                .style("stroke-opacity", .2)
+                .append("svg:title")
+                .text(function (d) { return "Exporters above, importers below." })
+
+            // Draw circles with tooltips.
+            var circles = g_svg.selectAll("circle")
+                .data(circle_table)
+                .enter()
+                .append("circle")
+
+            circles
+                .attr("cx", function (d) { return production_scale(d[production_index]).toString() })
+                .attr("cy", function (d) { return imports_scale(d[imports_index]).toString() })
+                .attr("r", function (d) { return percapita_scale(d[percapita_index]).toString() })
+                .style("fill", "green")
+                .style("stroke", "red")
+                .style("fill-opacity", .2)
+                .append("svg:title")
+                .text(function (d) { return d[percapita_index] })
+
+            // Label circles.
+            var circle_labels = g_svg.selectAll("text")
+                .data(circle_table)
+                .enter()
+                .append("text")
+
+            circle_labels
+                .attr("y", function (d) { return imports_scale(d[imports_index]).toString() })
+                .attr("x", function (d) { return (production_scale(d[production_index]) + percapita_scale(d[percapita_index])).toString() })
+                .attr("stroke", "black")
+                .text(function (d) { return d[country_index] })
+
+            // Horizontal Axis
+            var xAxis = d3.axisBottom().scale(production_scale)
+
+            g_svg.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(0," + (chart_height - bottom_margin) + ")")
+                .attr("id", "xaxis")
+                .call(xAxis)
+
+            // Vertical Axis with tooltip.
+            var yAxis = d3.axisLeft().scale(imports_scale)
+
+            g_svg.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(" + left_margin + ", 0)")
+                .attr("id", "yaxis")
+                .call(yAxis)
+                .append("svg:title")
+                .text(function (d) { return "Negative indicates exports." })
+
+            // Label for y axis with tool tip.
+            g_svg.append("text")
+                .attr("id", "yaxis_label")
+                .attr("transform", "rotate(-90)")
+                .attr("y", "50")
+                .attr("x", (((chart_height / 2) * (-1)).toString()))
+                .style("text-anchor", "middle")
+                .text("Net imports [Imports - Exports - Bunkers] (petajoules)")
+                .append("svg:title")
+                .text(function (d) { return "Negative indicates exports." })
+
+
+            // Label for x axis
+            g_svg.append("text")
+                .attr("id", "xaxis_label")
+                .attr("y", (chart_height - 10).toString())
+                .attr("x", (chart_width / 2).toString())
+                .style("text-anchor", "middle")
+                .text("Primary energy production (petajoules)")
+        }
+
+        // Chart the data from Google Sheets for a selected year.
+        function update_total_energy_by_production_and_imports(response) {
+
+            // Check for a successful query.
+            if (response.isError()) {
+                console.log('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage())
+                return
+            }
+
+            // Get runtime parameters.
+            var rt = runtime_parameters;
+
+            // Get chart attributes from runtime parameters.
+            var chart_width = rt.chart_width
+            var chart_height = rt.chart_height
+            var left_margin = rt.left_margin
+            var bottom_margin = rt.bottom_margin
+            var top_margin = rt.top_margin
+            var right_margin = rt.right_margin
+            var min_circle = rt.min_circle
+            var max_circle = rt.max_circle
+            var max_production = rt.max_production
+            var min_production = rt.min_production
+            var max_import = rt.max_import
+            var min_import = rt.min_import
+            var max_per_capita = rt.max_per_capita
+            var min_per_capita = rt.min_per_capita
+
+            // Get datatable attributes from runtime parameters.
+            var country_index = rt.country_index
+            var stock_index = rt.stock_index
+            var imports_index = rt.imports_index
+            var production_index = rt.production_index
+            var percapita_index = rt.percapita_index
+            var total_index = rt.total_index
+
+            // Pull the Data Table from the Google Sheets Response.
+            var dataTable = response.getDataTable()
+
+            // Build circle table.
+            var numberOfRows = dataTable.getNumberOfRows()
+            var numberOfColumns = dataTable.getNumberOfColumns()
+            var circle_table = []
+            for (var i = 0; i < numberOfRows; i++) {
+                var circle_row = []
+                for (var j = 0; j < numberOfColumns; j++) {
+                    var s = dataTable.getValue(i, j)
+                    circle_row.push(s)
+                }
+                circle_table.push(circle_row)
+            }
+
+            // Define Production Scale.
+            var production_scale = d3.scaleLinear()
+                .domain([min_production - 1000, max_production + 1000])
+                .range([left_margin, chart_width - right_margin])
+
+            // Define Import Scale.
+            var imports_scale = d3.scaleLinear()
+                .domain([min_import - 1000, max_import + 1000])
+                .range([top_margin, chart_height - bottom_margin])
+
+            // Define Per Capita Scale
+            var percapita_scale = d3.scaleLinear()
+                .domain([min_per_capita, max_per_capita])
+                .range([min_circle, max_circle])
+                .nice()
+
+            // Draw circles.
+            var circles = g_svg.selectAll("circle")
+                .data(circle_table)
+                .transition()
+                .duration(1000)
+
+            circles
+                .attr("cx", function (d) { return production_scale(d[production_index]).toString() })
+                .attr("cy", function (d) { return imports_scale(d[imports_index]).toString() })
+                .attr("r", function (d) { return percapita_scale(d[percapita_index]).toString() })
+                .style("fill", "green")
+                .style("stroke", "red")
+                .style("fill-opacity", .2)
+
+            // Update tooltips
+            circles
+                .select("title").text(function (d) { return d[percapita_index] })
+
+            // Label circles.
+            var circle_labels = g_svg.selectAll("text")
+                .data(circle_table)
+                .transition()
+                .duration(1000)
+
+            circle_labels
+                .attr("y", function (d) { return imports_scale(d[imports_index]).toString() })
+                .attr("x", function (d) { return (production_scale(d[production_index]) + percapita_scale(d[percapita_index])).toString() })
+                .attr("stroke", "black")
+                .text(function (d) { return d[country_index] })
+
+            // Line for import/export separation.
+            var import_export_line = g_svg.select("#import_export_line")
+                .attr("x1", left_margin.toString())
+                .attr("y1", imports_scale(0).toString())
+                .attr("x2", (chart_width - right_margin).toString())
+                .attr("y2", imports_scale(0).toString())
+
+            import_export_line.select("title").text(function (d) { return "Exporters above, importers below." })
+
+            // Horizontal Axis
+            var xAxis = d3.axisBottom().scale(production_scale)
+            g_svg.select("#xaxis")
+                .attr("transform", "translate(0," + (chart_height - bottom_margin) + ")")
+                .call(xAxis)
+
+            // Label for x axis
+            g_svg.select("#xaxis_label")
+                .attr("y", (chart_height - 10).toString())
+                .attr("x", (chart_width / 2).toString())
+
+            // Verticle Axis
+            var yAxis = d3.axisLeft().scale(imports_scale)
+            g_svg.select("#yaxis").call(yAxis)
+
+            // Label for y axis
+            g_svg.select("#yaxis_label")
+                .attr("y", "50")
+                .attr("x", (((chart_height / 2) * (-1)).toString()))
+
+        }
+
+    </script>
+
+    <!-- window_resize_listener_run:  
+        When the window is resized, determine the selected year then rerun the D3 code.
+        When the window is resized, determine the selected series then rerun the Google Chart code. -->
+    <script>
+        function window_resize_listener_run() {
+
+            // Resize SVG chart.
+            var radios = document.getElementsByName("total_energy")
+            var year = 1990
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    year = radios[i].value
+                    break;
+                }
+            }
+            draw_total_energy_by_production_and_import(year)
+
+            // Resize Google Chart.
+            var series_radios = document.getElementsByName("rb01")
+            var selected_series_button = "P"
+            for (var i = 0; i < series_radios.length; i++) {
+                if (series_radios[i].checked) {
+                    selected_series_button = series_radios[i].value
+                    break;
+                }
+            }
+            draw_series_by_country_over_year(selected_series_button)
+        }
+    </script>
+
+    <!-- Draw series by country over year using Google Charts. -->
+    <script>
+        function draw_series_by_country_over_year(series) {
+
+            selected_series = "P"
+
+            if (typeof (series) != "undefined") {
+                selected_series = series
+            }
+
+            switch (selected_series) {
+                case 'P':
+                    series_name = 'Primary energy production (petajoules)'
+                    ta01.innerHTML = 'Brazil and Columbia trending up significantly.  Decrease for Venezuela.'
+                    break
+                case 'N':
+                    series_name = 'Net imports [Imports - Exports - Bunkers] (petajoules)'
+                    ta01.innerHTML = 'Brazil has eliminated imports.  Exports for Columbia have increased corresponding to increase in production.'
+                    break
+                case 'C':
+                    series_name = 'Changes in stocks (petajoules)'
+                    ta01.innerHTML = 'Stocks for Colombia have decreased corresponding to the increase in exports.'
+                    break
+                case 'T':
+                    series_name = 'Total supply (petajoules)'
+                    ta01.innerHTML = 'Total production for Brazil and Argentina have increased whereas decrease for Venezuela.'
+                    break
+                case 'S':
+                    series_name = 'Supply per capita (gigajoules)'
+                    ta01.innerHTML = 'Despite being the top producer, Brazil is middle in per capita.  Chile and Argentina are trending higher.'
+                    break
+            }
+
+            var url = 'https://docs.google.com/spreadsheets/d/1CeiVB_u3H8lGjD9KlxkKzsdhivRMPKF0D8XT2qAzt0Y/edit?usp=sharing'
+
+            var s = 'SELECT A, sum(D) where (C = "' + series_name + '")  '
+            s = s + 'and (B<>"South America") '
+            s = s + 'and (B<>"Guyana") '
+            s = s + 'and (B<>"Suriname") '
+            s = s + 'group by A pivot B'
+
+            var queryString = encodeURIComponent(s)
+
+            var query = new google.visualization.Query(url + '&gid=703773082&headers=1&tq=' + queryString)
+
+            query.send(handle_series_by_country_over_year)
+        }
+
+        function handle_series_by_country_over_year(response) {
+
+            if (response.isError()) {
+                console.log('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage())
+                return
+            }
+
+            var options = {
+                width: runtime_parameters.chart_width,
+                height: runtime_parameters.chart_height,
+                title: series_name + ' by Country over Year',
+                hAxis: { format: '####' }
+            }
+
+            var data = response.getDataTable()
+            var chart = new google.visualization.LineChart(document.getElementById('series_by_country_over_year_div'))
+            chart.draw(data, options);
+        }
+    </script>
+
+    <!-- Google Libraries -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(draw_series_by_country_over_year);
+    </script>
+
+    <!-- initialize:  Add an event listeneer to rerun D3 code -->
+    <script>
+        function initialize() {
+            draw_total_energy_by_production_and_import(1990);
+            window.addEventListener('resize', window_resize_listener_run)
+        }
+    </script>
+
+</head>
+
+<body onload="initialize()">
+
+    <!-- Common Heading -->
+    <div class="container-fluid">
+        <div class="row cardinal_background">
+            <div class="col-sm-2 cardinal project_name">
+                <img src="https://vsoeapp1.vsoe.usc.edu/images/USC-Bar-cardinal.gif">
+                <br />
+            </div>
+            <div class="col-sm-8 cardinal_background project_name">
+                South America Energy
+            </div>
+            <div class="col-sm-2 cardinal_background bootcamp_name">
+                <p class="gold">Patrick Humphries, M.B.A.
+                    <br />
+                    INF 554: Data Visualization
+                    <br />
+                    August 2019
+                </p>
+            </div>
+        </div>
+
+        <!-- Left margin with navigation. -->
+        <div class="row">
+            <!-- Hide or unhide rows. -->
+            <div class=row>
+                <div class="col-sm-10">
+
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible_2('assignment')">
+                            Assignment
+                        </button>
+                        <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible_2('inkscape')">
+                            Inkscape
+                        </button>
+                        <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible_2('svg')">
+                            SVG
+                        </button>
+                        <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible_2('series')">
+                            Google Charts
+                        </button>
+                        <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible_2('all')">
+                            All
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- This row displays assignment, approach, provenance, and links to code. -->
+        <div id="assignment" class="row">
+            <div class="col-sm-4">
+                <fieldset>
+                    <legend>Assignment</legend>
+                    <p><b>Assignment 2</b>
+                        Use UN Data for the same 10 countries of Assignment 1 to create a bubble cloud with Inkscape.
+                        Create a web page named index.html and add the SVG created with Inkscape.
+                        In the same page, recreate the bubble cloud with SVG elements and using javascript.
+                        Add the line chart of Assignment 1 coded using the Google Charts library.
+                    </p>
+                </fieldset>
+            </div>
+            <div class="col-sm-4">
+                <fieldset>
+                    <legend>Approach</legend>
+                    <p>Since the author used armed forces of South America to critique a newpaper infographic, the approach taken was do something similar for energy</p>
+                    <p>A Google Sheet was populated with energy data for ten of the twelve sovereign nations of South America.</p>
+                    <p>Using this Google Sheet, bubble charts were created using Inkscape, SVG, and Google Charts.</p>
+                </fieldset>
+            </div>
+            <div class="col-sm-4">
+                <fieldset>
+                    <legend>Provenance</legend>
+                    <p>File "SYB62_T23_201904_Production, Trade and Supply of Energy" was downloaded from http://data.un.org.</p>
+                    <p>Using the QUERY function of Google Sheets, data was selected and organized into tables.</p>
+                    <p>The <i>values</i> of these tables were copied to a new Google Sheet. This Google sheet was used as the source for the following charts.</p>
+                    <p>This Google Sheet was published to the web with View authority granted to Public.</p>
+                </fieldset>
+            </div>
+        </div>
+
+        <!-- Inkscape:  Total Energy by Production and Net Imports -->
+        <div id="inkscape" class="row">
+            <div class="col-sm-3">
+                <fieldset class="padding_5px">
+                    <legend>2016 Energy Per Capita Using Inkscape</legend>
+                    <table class="table table-striped text-right">
+                        <thead>
+                            <tr>
+                                <th class="text-right">Country</th>
+                                <th class="text-right">Production</th>
+                                <th class="text-right">Import</th>
+                                <th class="text-right">Per Capita</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Argentina</td>
+                                <td>3181</td>
+                                <td>442</td>
+                                <td>83</td>
+                            </tr>
+                            <tr>
+                                <td>Bolivia</td>
+                                <td>921</td>
+                                <td>-549</td>
+                                <td>34</td>
+                            </tr>
+                            <tr>
+                                <td>Brazil</td>
+                                <td>12,183</td>
+                                <td>45</td>
+                                <td>59</td>
+                            </tr>
+                            <tr>
+                                <td>Chile</td>
+                                <td>525</td>
+                                <td>1,059</td>
+                                <td>88</td>
+                            </tr>
+                            <tr>
+                                <td>Colombia</td>
+                                <td>5,243</td>
+                                <td>-3,663</td>
+                                <td>36</td>
+                            </tr>
+                            <tr>
+                                <td>Ecuador</td>
+                                <td>1,321</td>
+                                <td>-691</td>
+                                <td>38</td>
+                            </tr>
+                            <tr>
+                                <td>Paraguay</td>
+                                <td>344</td>
+                                <td>-76</td>
+                                <td>39</td>
+                            </tr>
+                            <tr>
+                                <td>Peru</td>
+                                <td>974</td>
+                                <td>-25</td>
+                                <td>32</td>
+                            </tr>
+                            <tr>
+                                <td>Uruguay</td>
+                                <td>126</td>
+                                <td>88</td>
+                                <td>62</td>
+                            </tr>
+                            <tr>
+                                <td>Venezuela</td>
+                                <td>6,751</td>
+                                <td>-4,453</td>
+                                <td>73</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+            <div class="col-sm-8">
+
+                <div class="embed-responsive embed-responsive-16by9">
+                    <!-- <iframe class="embed-responsize-item" src="sae_2.svg"></iframe> -->
+                    <iframe class="embed-responsize-item" src="https://humphries-inf554.s3-us-west-1.amazonaws.com/week02/sae_2.svg"></iframe>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- SVG:  Total Energy by Production and Net Imports -->
+        <div id="svg" class="row">
+            <div class="col-sm-3">
+                <fieldset class="padding_5px">
+                    <legend>Energy Per Capita Using SVG</legend>
+                    <label>Select Year</label>
+                    <br />
+                    <input type=radio name="total_energy" onclick="draw_total_energy_by_production_and_import(1990)" value="1990" checked /> 1990
+                    <br />
+                    <input type=radio name="total_energy" onclick="draw_total_energy_by_production_and_import(1995)" value="1995" /> 1995
+                    <br />
+                    <input type=radio name="total_energy" onclick="draw_total_energy_by_production_and_import(2000)" value="2000" /> 2000
+                    <br />
+                    <input type=radio name="total_energy" onclick="draw_total_energy_by_production_and_import(2005)" value="2005" /> 2005
+                    <br />
+                    <input type=radio name="total_energy" onclick="draw_total_energy_by_production_and_import(2010)" value="2010" /> 2010
+                    <br />
+                    <input type=radio name="total_energy" onclick="draw_total_energy_by_production_and_import(2014)" value="2014" /> 2014
+                    <br />
+                    <input type=radio name="total_energy" onclick="draw_total_energy_by_production_and_import(2015)" value="2015" /> 2015
+                    <br />
+                    <input type=radio name="total_energy" onclick="draw_total_energy_by_production_and_import(2016)" value="2016" /> 2016
+                    <br />
+                    <label>Analysis</label>
+                    <br />
+                    <textarea id="ta03" class="form-control" rows="8" readonly>To begin, select a year.</textarea>
+                </fieldset>
+            </div>
+            <fieldset class="padding_5px">
+                <div id="drawing" class="col-sm-8">
+                </div>
+            </fieldset>
+        </div>
+
+        <!-- Google Charts:  This row shows series by country over time. -->
+        <div id="series" class="row">
+            <div class="col-sm-3">
+                <fieldset class="padding_5px">
+                    <legend>Energy Per Capita Using Google Charts</legend>
+                    <label>Select Series</label> <br />
+                    <input type=radio name="rb01" onclick="draw_series_by_country_over_year('P')" value="P" checked /> Primary energy production (petajoules)
+                    <br />
+                    <input type=radio name="rb01" onclick="draw_series_by_country_over_year('N')" value="N" /> Net imports [Imports - Exports - Bunkers] (petajoules)
+                    <br />
+                    <input type=radio name="rb01" onclick="draw_series_by_country_over_year('C')" value="C" /> Changes in stocks (petajoules)
+                    <br />
+                    <input type=radio name="rb01" onclick="draw_series_by_country_over_year('T')" value="T" /> Total supply (petajoules)
+                    <br />
+                    <input type=radio name="rb01" onclick="draw_series_by_country_over_year('S')" value="S" /> Supply per capita (gigajoules)
+                    <br /> <br />
+                    <label>Analysis</label> <br />
+                    <textarea id="ta01" class="form-control" rows="8" readonly></textarea>
+                </fieldset>
+            </div>
+            <div class="col-sm-9">
+                <div id='series_by_country_over_year_div'></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

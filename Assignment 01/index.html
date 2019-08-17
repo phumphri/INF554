@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>South America Energy </title>
+
+    <!-- Bootstrap -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- U.S.C. Decorations -->
+    <link rel="stylesheet" type="text/css" href="https://humphries-inf554.s3-us-west-1.amazonaws.com/viterbi_3.css" />
+    <link rel="shortcut icon" href="https://www.usc.edu/favicon.ico" />
+    <link rel="favicon" href="https://www.usc.edu/favicon.ico" />
+
+    <!-- Metadata -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="sandbox, humphries">
+    <meta name="Author" content="Patrick Humphries">
+    <meta http-equiv="charset" content="utf-8">
+    <meta http-equiv="content-type" content="text/html">
+
+    <!-- Webpage Hide and Seek -->
+    <script>
+
+        function sae_hidden_or_visible(row_id) {
+
+            // Get references to all of the rows.
+            var assignment = document.getElementById("assignment")
+            var series = document.getElementById("series")
+            var embed = document.getElementById("embed")
+
+            // Hide all rows.
+            assignment.className = "row hidden"
+            series.className = "row hidden"
+            embed.className = "row hidden"
+
+            // Unhide the selected row.
+            switch (row_id) {
+                case "assignment":
+                    console.log('assignment')
+                    assignment.className = "row visible"
+                    break
+                case "series":
+                    console.log("series")
+                    series.className = "row visible"
+                    break
+                case "embed":
+                    console.log("embed")
+                    embed.className = "row visible"
+                    break
+                default:
+                    console.log("default")
+                    assignment.className = "row visible"
+                    series.className = "row visible"
+                    embed.className = "row visible"
+                    break
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <div class="row cardinal_background">
+            <div class="col-sm-2 cardinal project_name">
+                <img src="https://vsoeapp1.vsoe.usc.edu/images/USC-Bar-cardinal.gif"><br />
+            </div>
+            <div class="col-sm-8 cardinal_background project_name">
+                South America Energy
+
+            </div>
+            <div class="col-sm-2 cardinal_background bootcamp_name">
+                <p class="gold">Patrick Humphries, M.B.A.<br />
+                    INF 554: Data Visualization<br />
+                    August 2019
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+
+        <!-- Hide or unhide rows. -->
+        <div class=row>
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('assignment')">
+                    Assignment
+                </button>
+                <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('series')">
+                    Dynamic Chart
+                </button>
+                <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('embed')">
+                    Embedded Chart
+                </button>
+                <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('all')">
+                    All
+                </button>
+            </div>
+        </div>
+
+
+        <!-- This row displays assignment, approach, provenance, and links to code. -->
+        <div id="assignment" class="row">
+            <div class="col-sm-3">
+                <fieldset>
+                    <legend>Assignment</legend>
+                    <b>Assignment 1. </b>Follow Cairo Part I, Ch.1 example
+                    on UN Data. For 10 countries select UN data of
+                    your choice. Import the data in Google Sheets and
+                    format the data to create a line chart, export the chart
+                    to a web page.
+                </fieldset>
+            </div>
+            <div class="col-sm-3">
+                <fieldset>
+                    <legend>Approach</legend>
+                    <p>Since the author used armed forces of South America to critique a newpaper infographic, the
+                        approach taken was do something similar for energy</p>
+                    <p>A Google Sheet was populated with energy data for ten of the twelve sovereign nations of South
+                        America.</p>
+                </fieldset>
+            </div>
+            <div class="col-sm-3">
+                <fieldset>
+                    <legend>Provenance</legend>
+                    <p>File "SYB62_T23_201904_Production, Trade and Supply of Energy" was downloaded from
+                        http://data.un.org.</p>
+                    <p>Using the QUERY function of Google Sheets, data was selected and organized into tables.</p>
+                    <p>The <i>values</i> of these tables were copied to a new Google Sheet. This Google sheet was
+                        used as the source for the following charts.</p>
+                    <p>This Google Sheet was published to the web with View authority granted to Public.</p>
+                </fieldset>
+            </div>
+        </div>
+
+        <!-- This row shows series by country over time. -->
+        <div id="series" class="row">
+
+            <div class="col-sm-12">
+                <fieldset class="padding_5px">
+                    <legend>Dynamic Google Chart (Dynamic)</legend>
+                    <a target="_blank" href="https://docs.google.com/spreadsheets/d/1UQInI-Hm_KflmDN_v1Kiz0ZFQ3kNlH4WPZPDKPPanX0/edit#gid=1908627679">South America Energy</a>
+                </fieldset>
+            </div>
+        </div>
+
+        <div id="embed" class="row">
+            <div class="col-sm-12">
+                <fieldset class="padding_5px">
+                    <legend>Embeded Google Chart (Static)</legend>
+
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsize-item" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8ZWuPWzQpWdrDf3DdkdAer5vax8qJXA-vjM5FQCpOeiUX0t46enyYqEh0ktvZjyCtJPK3StnizZBy/pubhtml?widget=true&amp;headers=false">
+                        </iframe>
+                    </div>
+
+
+                </fieldset>
+            </div>
+        </div>
+
+</body>
+
+</html>
