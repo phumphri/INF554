@@ -31,8 +31,16 @@ const server = http.createServer((req, res) => {
         return
     }
 
-    // Concatenate the current directory and the url to get the file name.
-    if (url.endsWith(".html")) {
+    // Determine which file and content type to return.
+    if (url.endsWith("/Assignment%2001/index.html")) {
+        var file_name = path.join(process.cwd(), '/Assignment 01/index.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Assignment%2002/index.html")) {
+        var file_name = path.join(process.cwd(), '/Assignment 02/index.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith(".html")) {
         var file_name = path.join(process.cwd(), '/templates/', url)
         var content_type = "text/html"
     }
