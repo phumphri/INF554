@@ -40,6 +40,26 @@ const server = http.createServer((req, res) => {
         var file_name = path.join(process.cwd(), '/Assignment 02/index.html')
         var content_type = "text/html"
     }
+    else if (url.endsWith("/Assignment%2007/index.html")) {
+        var file_name = path.join(process.cwd(), '/Assignment 07/index.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Assignment%2007/static/js/bar_chart.js")) {
+        var file_name = path.join(process.cwd(), '/Assignment 07/static/js/bar_chart.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Assignment%2007/static/css/viterbi.css")) {
+        var file_name = path.join(process.cwd(), '/Assignment 07/static/css/viterbi.css')
+        var content_type = "text/css"
+    }
+    else if (url.endsWith("/Assignment%2007/static/js/sae_hidden_or_visible.js")) {
+        var file_name = path.join(process.cwd(), '/Assignment 07/static/js/sae_hidden_or_visible.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Assignment%2007/static/json/data.json")) {
+        var file_name = path.join(process.cwd(), '/Assignment 07/static/json/data.json')
+        var content_type = "text/json"
+    }
     else if (url.endsWith(".html")) {
         var file_name = path.join(process.cwd(), '/templates/', url)
         var content_type = "text/html"

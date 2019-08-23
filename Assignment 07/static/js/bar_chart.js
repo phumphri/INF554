@@ -6,6 +6,7 @@ g = {
     year: "2016",
     series: "Production",
     order: "Country",
+    filter: "All",
     y_scale: null,
     x_scale: null,
     x_domain: [],
@@ -33,8 +34,8 @@ function set_global_variables() {
 
     // Define margins.
     g.top_margin = Math.floor(g.svg_height * 0.05)
-    g.bottom_margin = Math.floor(g.svg_height * 0.05)
-    g.left_margin = Math.floor(g.svg_width * 0.05)
+    g.bottom_margin = Math.floor(g.svg_height * 0.08)
+    g.left_margin = Math.floor(g.svg_width * 0.07)
     g.right_margin = Math.floor(g.svg_width * 0.05)
 
     // Define borders.
@@ -81,9 +82,13 @@ function calculate_x_scale() {
     var d = g.f
     var x_domain = []
 
+    console.log("d.length at beginning of x_scale:  " + d.length)
+
     for (var i = 0; i < d.length; i++) {
         x_domain.push(d[i].Country)
     }
+
+    console.log("x_domain.length during x_scale:  " + x_domain.length)
 
     g.x_domain = x_domain
 
@@ -104,12 +109,24 @@ function calculate_y_scale() {
     var min_y = d3.min(d, (d) => { return d.Value })
     var max_y = d3.max(d, (d) => { return d.Value })
 
+    console.log("min_y:  " + min_y)
+    console.log("max_y:  " + max_y)
+    console.log("g.chart_height:  " + g.chart_height)
+
     var y_scale = d3.scaleLinear()
         .domain([min_y, max_y])
         .range([0, g.chart_height])
         .nice()
 
     g.y_scale = y_scale
+
+    console.log("y_scale:  " + y_scale)
+    for (var i = 0; i < d.length; i++) {
+        var x = d[i].Value
+        console.log("y_scale(" + x + "):  " + y_scale(x))
+        console.log("g.y_scale(" + x + "):  " + g.y_scale(x))
+        console.log(" ")
+    }
 }
 
 function append_rectangles(mode) {
@@ -118,7 +135,9 @@ function append_rectangles(mode) {
     var d = g.f
 
     if (mode == "enter") {
+
         console.log("Appending rectangles.")
+
         g.svg.selectAll("rect")
             .data(d)
             .enter()
@@ -127,17 +146,51 @@ function append_rectangles(mode) {
             .attr("width", g.x_scale.bandwidth())
             .attr("height", (d) => { return Math.floor(g.y_scale(d.Value)) })
             .attr("fill", () => { return "#900" })
-            .attr("x", (d) => { return g.x_scale(d.Country) + (g.x_scale.bandwidth() * 0.6) })
+            .attr("x", (d) => { return g.x_scale(d.Country) + g.left_border })
+
     } else {
+
         console.log("Updating rectangles.")
-        g.svg.selectAll("rect")
-            .data(d)
-            .transition()
+
+        // Get placeholders for all existing and new bars.
+
+        console.log("Getting bars.")
+
+        var bars = g.svg.selectAll("rect").data(d)
+
+        console.log("d.length:  " + d.length)
+
+        // Update existing bars.
+
+        console.log("Updating existing bars.")
+
+        bars.transition()
             .attr("y", (d) => { return Math.floor(g.bottom_border - g.y_scale(d.Value)) })
             .attr("width", g.x_scale.bandwidth())
             .attr("height", (d) => { return Math.floor(g.y_scale(d.Value)) })
             .attr("fill", () => { return "#900" })
-            .attr("x", (d) => { return g.x_scale(d.Country) + (g.x_scale.bandwidth() * 0.6) })
+            .attr("x", (d) => { return g.x_scale(d.Country) + g.left_border })
+
+        // Add new bars.
+
+        console.log("Adding new bars.")
+
+        bars.enter()
+            .append("rect")
+            .attr("y", (d) => { return Math.floor(g.bottom_border - g.y_scale(d.Value)) })
+            .attr("width", g.x_scale.bandwidth())
+            .attr("height", (d) => { return Math.floor(g.y_scale(d.Value)) })
+            .attr("fill", () => { return "#900" })
+            .attr("x", (d) => { return g.x_scale(d.Country) + g.left_border })
+
+            // Remove bars that have no data.
+
+            console.log("Removing bars.")
+
+        bars.exit()
+            .transition()
+            .attr("x", g.svg_width)
+            .remove()
     }
 }
 
@@ -146,7 +199,9 @@ function append_labels(mode) {
     var d = g.f
 
     if (mode == "enter") {
+
         console.log("Appending labels.")
+
         g.svg.selectAll("text")
             .data(d)
             .enter()
@@ -154,6 +209,7 @@ function append_labels(mode) {
             .attr("text-anchor", "middle")
             .attr("font-family", "sans-serif")
             .attr("font-size", "14px")
+            .attr("class", "text-center")
             .attr("fill", (d) => {
                 var y = Math.floor(g.bottom_border - g.y_scale(d.Value)) + 20
                 if (y > g.bottom_border - 10) {
@@ -162,18 +218,22 @@ function append_labels(mode) {
                     return "white"
                 }
             })
-            .attr("x", (d) => { return g.x_scale(d.Country) + (g.x_scale.bandwidth() * 1.1) })
+            .attr("x", (d) => { return g.x_scale(d.Country) + (g.x_scale.bandwidth() * 1.35) })
             .attr("y", (d) => {
                 var y = Math.floor(g.bottom_border - g.y_scale(d.Value)) + 20
                 if (y > g.bottom_border - 10) { y = g.bottom_border - g.y_scale(d.Value) - 10 }
                 return Math.round(y)
             })
             .text((d) => { return d.Value.toString() })
+
     } else {
+
         console.log("Updating labels.")
-        g.svg.selectAll("text")
-            .data(d)
-            .transition()
+
+        // Bar labels have the unique class of text-center.
+        var bars = g.svg.selectAll(".text-center").data(d)
+
+        bars.transition()
             .attr("fill", (d) => {
                 var y = Math.floor(g.bottom_border - g.y_scale(d.Value)) + 20
                 if (y > g.bottom_border - 10) {
@@ -182,13 +242,40 @@ function append_labels(mode) {
                     return "white"
                 }
             })
-            .attr("x", (d) => { return g.x_scale(d.Country) + (g.x_scale.bandwidth() * 1.1) })
+            .attr("x", (d) => { return g.x_scale(d.Country) + g.left_border + (g.x_scale.bandwidth() / 2) })
             .attr("y", (d) => {
                 var y = Math.floor(g.bottom_border - g.y_scale(d.Value)) + 20
                 if (y > g.bottom_border - 10) { y = g.bottom_border - g.y_scale(d.Value) - 10 }
                 return Math.round(y)
             })
             .text((d) => { return d.Value.toString() })
+
+        bars.enter()
+            .append("text")
+            .attr("text-anchor", "middle")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "14px")
+            .attr("class", "text-center")
+            .attr("fill", (d) => {
+                var y = Math.floor(g.bottom_border - g.y_scale(d.Value)) + 20
+                if (y > g.bottom_border - 10) {
+                    return "black"
+                } else {
+                    return "white"
+                }
+            })
+            .attr("x", (d) => { return g.x_scale(d.Country) + (g.x_scale.bandwidth() * 1.35) })
+            .attr("y", (d) => {
+                var y = Math.floor(g.bottom_border - g.y_scale(d.Value)) + 20
+                if (y > g.bottom_border - 10) { y = g.bottom_border - g.y_scale(d.Value) - 10 }
+                return Math.round(y)
+            })
+            .text((d) => { return d.Value.toString() })
+
+        bars.exit()
+            .transition()
+            .attr("x", g.svg_width)
+            .remove()
     }
 }
 
@@ -207,18 +294,48 @@ function append_y_axis(mode) {
     var y_axis = d3.axisLeft().scale(y_axis_scale)
 
     if (mode == "enter") {
+
         console.log("Appending y_axis.")
+
         g.svg.append("g")
             .attr("id", "y_axis")
             .attr("class", "axis")
             .attr("transform", "translate(" + g.left_border.toString() + ",0)")
+            // .style("fill", "black")
             .call(y_axis)
+
+        console.log("Appending y_axis_label.")
+
+        g.svg.append("text")
+            .attr("id", "y_axis_label")
+            .attr("transform", "rotate(-90)")
+            .attr("y", Math.floor(g.left_margin * 0.14))
+            .attr("x", Math.floor(((g.chart_height / 2) * (-1)).toString()))
+            .style("text-anchor", "middle")
+            // .style("fill", "black")
+            .text(d[0].Title)
+
+
+
     } else {
+
         console.log("Updating y_axis.")
+
         g.svg.select("#y_axis")
             .transition()
             .attr("transform", "translate(" + g.left_border.toString() + ",0)")
+            // .style("fill", "black")
             .call(y_axis)
+
+        console.log("Updating y_axis_label.")
+
+        g.svg.select("#y_axis_label")
+            .attr("transform", "rotate(-90)")
+            .attr("y", Math.floor(g.left_margin * 0.14))
+            .attr("x", Math.floor(((g.chart_height / 2) * (-1)).toString()))
+            .style("text-anchor", "middle")
+            // .style("fill", "black")
+            .text(d[0].Title)
     }
 }
 
@@ -227,38 +344,50 @@ function append_x_axis(mode) {
     var x_axis = d3.axisBottom().scale(g.x_scale)
 
     if (mode == "enter") {
+
         console.log("Appending x_axis.")
+
         g.svg.append("g")
             .attr("id", "x_axis")
             .attr("class", "axis")
             .attr("transform", "translate(" + g.left_border + ", " + g.bottom_border + ")")
             .call(x_axis)
+
+        console.log("Appending x_axis_label.")
+
+        g.svg.append("text")
+            .attr("id", "x_axis_label")
+            .attr("y", (g.bottom_border * 1.07).toString())
+            .attr("x", ((g.chart_width / 2) + g.left_margin).toString())
+            .style("text-anchor", "middle")
+            .text("Ten Sovereign Nations of South America")
+
     } else {
+
         console.log("Updating x_axis.")
+
         g.svg.select("#x_axis")
             .transition()
             .attr("transform", "translate(" + g.left_border + ", " + g.bottom_border + ")")
             .call(x_axis)
+
+        console.log("Updating x_axis_label.")
+
+        g.svg.select("#x_axis_label")
+            .attr("y", (g.bottom_border * 1.07).toString())
+            .attr("x", ((g.chart_width / 2) + g.left_margin).toString())
+            .style("text-anchor", "middle")
+            .text("Ten Sovereign Nations of South America")
     }
 }
 
-function filter_d() {
+function sort_data(d, mode) {
 
-    console.log('Filtering data for "' + g.year + '", "' + g.series + '", "' + g.order + '".')
+    console.log("d.length at beginning of sort(" + mode + "):  " + d.length)
 
-    var d = g.d
-    var f = []
+    d.sort((a, b) => {
 
-    for (var i = 0; i < d.length; i++) {
-        if (d[i].Year == g.year && d[i].Series == g.series) {
-            f.push(d[i])
-        }
-    }
-
-    // Sort the filtered data.
-    f.sort((a, b) => {
-
-        if (g.order == "Country") {
+        if (mode == "Country") {
 
             console.log("Sorting by Country Name.")
 
@@ -274,7 +403,7 @@ function filter_d() {
             }
 
             return comparison
-        } else if (g.order == "Ascending") {
+        } else if (mode == "Ascending") {
 
             console.log("Sorting by Ascending Value")
 
@@ -291,7 +420,7 @@ function filter_d() {
 
             return comparison
         }
-        else if (g.order == "Descending") {
+        else if (mode == "Descending") {
 
             console.log("Sorting by Descending Value")
 
@@ -308,11 +437,91 @@ function filter_d() {
 
             return comparison
         } else {
-            console.log("Sort order not recognized.")
+            console.log("Sort order not recognized:  " + mode)
         }
     })
 
+    console.log("d.length at ending of sort(" + mode + "):  " + d.length)
+
+    // Return the sorted data.
+    return d
+}
+
+function filter_d() {
+
+    console.log('Filtering data for "' + g.year + '", "' + g.series + '", "' + g.order + '".')
+
+    s = "Filtering data:  "
+
+    var d = g.d
+
+    console.log(s + "d.length at beginning of filter:  " + d.length)
+
+    var f = []
+
+    for (var i = 0; i < d.length; i++) {
+        if (d[i].Year == g.year && d[i].Series == g.series) {
+            f.push(d[i])
+        }
+    }
+
+    console.log(s + "f.length after year and series filter:  " + f.length)
+
+    // Keep either the top five or bottom five.
+    if (g.filter == "Top") {
+
+        console.log("Selecting the top five.")
+
+        // Sort the global data in asending order.
+        f = sort_data(f, "Ascending")
+
+        // Remove all low-value elements from the global data.
+        while (f.length > 5) {
+            f.shift()
+        }
+
+        console.log(s + "f.length after top five filter:  " + f.length)
+    }
+    else if (g.filter == "Bottom") {
+
+        console.log("Selecting the bottom file.")
+
+        // Sort the global data in asending order.
+        f = sort_data(f, "Ascending")
+
+        // Remove all high-value elements from the global data.
+        while (f.length > 5) {
+            f.pop()
+        }
+
+        console.log(s + "f.length after bottom five filter:  " + f.length)
+    }
+
+    // Sort the filtered local data based on user input.
+    f = sort_data(f, g.order)
+
+    console.log(s + "f.length after client sort:  " + f.length)
+
+    // Update the global data with the local data.
     g.f = f
+
+    console.log(s + "f.length after filter_d:  " + f.length)
+}
+
+function adjust_font_sizes() {
+
+    console.log("Adjusting font size.")
+
+    if (g.left_margin > 55) {
+        g.svg.selectAll(".tick").attr("font-size", "14")
+        g.svg.select("#y_axis_label").attr("font-size", "14")
+        g.svg.select("#x_axis_label").attr("font-size", "14")
+    } else {
+        g.svg.selectAll(".tick").attr("font-size", "10")
+        g.svg.select("#y_axis_label").attr("font-size", "10")
+        g.svg.select("#x_axis_label").attr("font-size", "10")
+    }
+
 }
 
 function update_chart() {
@@ -357,6 +566,17 @@ function update_chart() {
         }
     }
 
+    // Get the selected order group.
+    var selected_filter_group = document.getElementsByName("selected_filter")
+
+    // Find the selected component in the group
+    for (var i = 0; i < selected_filter_group.length; i++) {
+        if (selected_filter_group[i].checked) {
+            g.filter = selected_filter_group[i].value
+            break;
+        }
+    }
+
     // Set global variable sfor all functions.
     set_global_variables()
 
@@ -374,16 +594,14 @@ function update_chart() {
     append_y_axis(mode)
     append_x_axis(mode)
 
-    // Set the font size for ALL ticks.
-    if (g.left_margin > 45) {
-        g.svg.selectAll(".tick").attr("font-size", "14")
-    } else {
-        g.svg.selectAll(".tick").attr("font-size", "10")
-    }
+    // Set the font size for ALL ticks and y axis label.
+    adjust_font_sizes()
 
 }
 
 function convert_d() {
+
+    console.log("Converting data.")
 
     var f = []
 
@@ -395,6 +613,7 @@ function convert_d() {
         d.Country = g.d[i]["Country"]
         d.Series = g.d[i]["Series"]
         d.Value = g.d[i]["Value"]
+        d.Title = g.d[i]["Series"]
 
         // Reduce the size of the Series string.
         if (d.Series.includes("production")) { d.Series = "Production" }
@@ -425,7 +644,8 @@ function convert_d() {
             "Year": d.Year,
             "Country": d.Country,
             "Series": d.Series,
-            "Value": d.Value
+            "Value": d.Value,
+            "Title": d.Title
         }
 
         // Collect the converted javascript objects.
@@ -442,21 +662,22 @@ function initialize_chart() {
     // Create a promise object from the csv file.
     console.log("About to call d3.json().")
 
-    url_for_data = "../data.json"
+    url_for_data = "/Assignment%2007/static/json/data.json"
 
     // d3.json(url_for_data, converter)
     d3.json(url_for_data)
         .then((d) => {
 
-            console.log("Original d.length:  " + d.length)
-            console.log("stingify:")
-            console.log(JSON.stringify(d))
+            // console.log("Original d.length:  " + d.length)
+            // console.log("stingify:")
+            // console.log(JSON.stringify(d))
 
             // Make all data available to all functions.
             g.d = d;
 
             // Convert data.
             convert_d()
+
             console.log("d.length after convert_d:  " + d.length)
 
             // Set global variable sfor all functions.
@@ -466,6 +687,7 @@ function initialize_chart() {
             g.year = "2016"
             g.series = "Production"
             g.order = "Country"
+            g.order = "All"
             filter_d()
 
             // Build chart with filtered data.
@@ -480,13 +702,9 @@ function initialize_chart() {
             append_y_axis(mode)
             append_x_axis(mode)
 
-            // Set the font size for ALL ticks.
-            if (g.left_margin > 45) {
-                g.svg.selectAll(".tick").attr("font-size", "14")
-            } else {
-                g.svg.selectAll(".tick").attr("font-size", "10")
-            }
-        
+            // Set the font size for ALL ticks and y axis label.
+            adjust_font_sizes()
+
             // Update (redraw) the chart when the window is resized.
             window.addEventListener('resize', update_chart)
 

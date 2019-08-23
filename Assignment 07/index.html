@@ -10,7 +10,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <!-- U.S.C. Decorations -->
-    <link rel="stylesheet" type="text/css" href="/viterbi.css" />
+    <link rel="stylesheet" type="text/css" href="/Assignment%2007/static/css/viterbi.css" />
     <!-- <link rel="stylesheet" type="text/css" href="https://humphries-inf554.s3-us-west-1.amazonaws.com/viterbi_3.css" /> -->
     <link rel="shortcut icon" href="https://www.usc.edu/favicon.ico" />
     <link rel="favicon" href="https://www.usc.edu/favicon.ico" />
@@ -26,8 +26,8 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
 
     <!-- Bar Chart Scripts -->
-    <script type="text/javascript" src="/bar_chart.js"></script>
-    <script type="text/javascript" src="/sae_hidden_or_visible.js"></script>
+    <script type="text/javascript" src="/Assignment%2007/static/js/bar_chart.js"></script>
+    <script type="text/javascript" src="/Assignment%2007/static/js/sae_hidden_or_visible.js"></script>
 
     <!-- Bootstrap -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -41,14 +41,14 @@
     <div class="container-fluid">
 
         <div class="row cardinal_background">
-            <div class="col-sm-2 cardinal project_name">
+            <div class="col-sm-3 cardinal project_name">
                 <img src="https://vsoeapp1.vsoe.usc.edu/images/USC-Bar-cardinal.gif"><br />
             </div>
-            <div class="col-sm-8 cardinal_background project_name">
+            <div class="col-sm-6 cardinal_background project_name">
                 South America Energy
 
             </div>
-            <div class="col-sm-2 cardinal_background bootcamp_name">
+            <div class="col-sm-3 cardinal_background bootcamp_name">
                 <p class="gold">Patrick Humphries, M.B.A.<br />
                     INF 554: Information Visualization<br />
                     Fall 2019
@@ -75,15 +75,29 @@
         <div id="assignment" class="row">
             <div class="col-sm-3">
                 <fieldset>
-                    <legend>Bar Chart</legend>
-                    <p>Going through the Scott Murray's book and do everything with a bar chart.</p>
+                    <legend>Assignment</legend>
+                    <p><b>Assignment 7.</b></p>
+                    <p>Select 1 year from the dataset you created for Assignment 1.</p>
+                    <p>Load the data in JSON and implement a D3 bar chart complete with axes, tick marks and labels.</p>
+                    <p>Implement smooth transitions based on user input to reorder the bars:
+                        <ul>
+                            <li>show all bars in alphabetic order (default)</li>
+                            <li>ascending order</li>
+                            <li>descending order</li>
+                            <li>top 5</li>
+                            <li>bottom 5</li>
+                        </ul>
+                    </p>
+                    <p>Update the axes and legend as needed.</p>
                 </fieldset>
             </div>
             <div class="col-sm-3">
                 <fieldset>
                     <legend>Approach</legend>
-                    <p>Starting with Chapter 5. Data</p>
-                </fieldset>
+                    <p>Since the author used armed forces of South America to critique a newpaper infographic, the approach taken was do something similar for energy.</p>
+                    <p>A JSON file was populated with energy data for ten of the twelve sovereign nations of South America.</p>
+                    <p>Function d3.json loaded the data into a data structure.</p>
+                    <p>This data structure was filtered and sorted per user input.</p>
             </div>
             <div class="col-sm-3">
                 <fieldset>
@@ -92,7 +106,7 @@
                         http://data.un.org.</p>
                     <p>Using the QUERY function of Google Sheets, data was selected and organized into tables.</p>
                     <p>The <i>values</i> of these tables were copied to Google Sheet "SA_Energy_Data".</p>
-                    <p>This Google Sheet was downloaded to "/static/csv/data.csv".</p>
+                    <p>This Google Sheet was downloaded as CSV, converted to JSON, an saved to "Assignment 07/static/json/data.json".</p>
                 </fieldset>
             </div>
             <div class="col-sm-3">
@@ -151,11 +165,20 @@
                     <label>Order</label>
                     <br />
                     <div class="btn_group_vertical btn-group-sm">
-                        <input type=radio name="selected_order" onclick="update_chart()" value="Country" checked/> Country Name
+                        <input type=radio name="selected_order" onclick="update_chart()" value="Country" checked /> Country Name
                         <br />
                         <input type=radio name="selected_order" onclick="update_chart()" value="Ascending" /> Ascending Value
                         <br />
                         <input type=radio name="selected_order" onclick="update_chart()" value="Descending" /> Descending Value
+                    </div>
+                    <label>Filter</label>
+                    <br />
+                    <div class="btn_group_vertical btn-group-sm">
+                        <input type=radio name="selected_filter" onclick="update_chart()" value="Top"/> Top 5
+                        <br />
+                        <input type=radio name="selected_filter" onclick="update_chart()" value="Bottom" /> Bottom 5
+                        <br />
+                        <input type=radio name="selected_filter" onclick="update_chart()" value="All" checked /> All
                     </div>
                 </fieldset>
             </div>
