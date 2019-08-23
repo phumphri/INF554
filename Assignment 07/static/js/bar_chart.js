@@ -34,7 +34,7 @@ function set_global_variables() {
 
     // Define margins.
     g.top_margin = Math.floor(g.svg_height * 0.05)
-    g.bottom_margin = Math.floor(g.svg_height * 0.08)
+    g.bottom_margin = Math.floor(g.svg_height * 0.10)
     g.left_margin = Math.floor(g.svg_width * 0.07)
     g.right_margin = Math.floor(g.svg_width * 0.05)
 
@@ -357,7 +357,7 @@ function append_x_axis(mode) {
 
         g.svg.append("text")
             .attr("id", "x_axis_label")
-            .attr("y", (g.bottom_border * 1.07).toString())
+            .attr("y", (g.svg_height * 0.99).toString())
             .attr("x", ((g.chart_width / 2) + g.left_margin).toString())
             .style("text-anchor", "middle")
             .text("Ten Sovereign Nations of South America")
@@ -374,7 +374,7 @@ function append_x_axis(mode) {
         console.log("Updating x_axis_label.")
 
         g.svg.select("#x_axis_label")
-            .attr("y", (g.bottom_border * 1.07).toString())
+            .attr("y", (g.svg_height * 0.99).toString())
             .attr("x", ((g.chart_width / 2) + g.left_margin).toString())
             .style("text-anchor", "middle")
             .text("Ten Sovereign Nations of South America")
