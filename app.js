@@ -31,15 +31,65 @@ const server = http.createServer((req, res) => {
         return
     }
 
-    // Determine which file and content type to return.
+    // Assignment 1
     if (url.endsWith("/Assignment%2001/index.html")) {
         var file_name = path.join(process.cwd(), '/Assignment 01/index.html')
         var content_type = "text/html"
     }
+
+    // Assignment 2
     else if (url.endsWith("/Assignment%2002/index.html")) {
         var file_name = path.join(process.cwd(), '/Assignment 02/index.html')
         var content_type = "text/html"
     }
+
+    // Assignment 4
+    else if (url.endsWith("/Assignment%2004/index.html")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/index.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Assignment%2004/static/js/initialization.js")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/static/js/initialization.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Assignment%2004/static/js/main.js")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/static/js/main.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Assignment%2004/static/js/html_table.js")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/static/js/html_table.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Assignment%2004/static/js/bar_chart.js")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/static/js/bar_chart.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Assignment%2004/static/js/scatterplot_chart.js")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/static/js/scatterplot_chart.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Assignment%2004/static/js/bubble_chart.js")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/static/js/bubble_chart.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Assignment%2004/static/css/viterbi.css")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/static/css/viterbi.css')
+        var content_type = "text/css"
+    }
+    else if (url.endsWith("/Assignment%2004/static/js/sae_hidden_or_visible.js")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/static/js/sae_hidden_or_visible.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Assignment%2004/static/csv/metadata.csv")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/static/csv/metadata.csv')
+        var content_type = "text/csv"
+    }
+    else if (url.endsWith("/Assignment%2004/static/csv/data.csv")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/static/csv/data.csv')
+        var content_type = "text/csv"
+    }
+
+    // Assignment 7
     else if (url.endsWith("/Assignment%2007/index.html")) {
         var file_name = path.join(process.cwd(), '/Assignment 07/index.html')
         var content_type = "text/html"
@@ -60,6 +110,8 @@ const server = http.createServer((req, res) => {
         var file_name = path.join(process.cwd(), '/Assignment 07/static/json/data.json')
         var content_type = "text/json"
     }
+
+    // Other applications.
     else if (url.endsWith(".html")) {
         var file_name = path.join(process.cwd(), '/templates/', url)
         var content_type = "text/html"
@@ -85,6 +137,7 @@ const server = http.createServer((req, res) => {
 
 });
 
+// Return the response for the request file or 404 if not found.
 function return_file(req, res, file_name, content_type) {
 
     if (fs.existsSync(file_name)) {
@@ -108,6 +161,7 @@ function return_file(req, res, file_name, content_type) {
 
 }
 
+// Return the 404 response for a file not found or 500 if something evil comes this way.
 function return_404(req, res, err_message) {
 
     var file_404 = path.join(process.cwd(), "/templates/404.html")
@@ -135,6 +189,7 @@ function return_404(req, res, err_message) {
     }
 }
 
+// Return the 500 response for something evil comes this way.
 function return_500(req, res, err_message) {
 
     var file_500 = path.join(process.cwd(), "/templates/500.html")
@@ -166,7 +221,7 @@ function return_500(req, res, err_message) {
 // Start server.
 var instance = server.listen(process.env.PORT || 5000, function () {
     var port = instance.address().port;
-    console.log("Express is working on port " + port);
+    console.log("Server is working on port " + port);
 });
 
 

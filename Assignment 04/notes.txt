@@ -1,0 +1,109 @@
+
+Regions
+
+East Asia & Pacific
+Europe & Central Asia
+Latin America & Caribbean
+Middle East & North Africa
+
+
+
+
+
+
+
+
+
+
+
+Dimensions
+
+Country Code/Name
+
+Income Group
+
+Region
+
+Must have Region and Income Group
+
+Just select 20 for metadata
+
+For data, select 
+
+
+
+
+
+
+
+
+
+From Metadata_Country_API_SP.RUR.TOTL.ZS_DS2_en_csv_v2_50124.csv
+
+d."Country Code"
+d."IncomeGroup"
+d."Region"
+d."TableName"
+
+Select "Country Code" and TableName (Country Name)
+
+Where Region = "Latin America & Caribbean"
+
+And IncomeGroup = "Upper middle income"
+
+
+From API_SP.RUR.TOTL.ZS_DS2_en_csv_v2_50124
+
+Starting with row 6
+
+Matching "Country Code" (Column B)
+
+Select 2018 (Column BK)
+
+
+
+That gives 20:
+
+Country Code
+ARG
+BLZ
+BRA
+COL
+CRI
+CUB
+DMA
+DOM
+ECU
+GRD
+GTM
+GUY
+JAM
+LCA
+MEX
+PER
+PRY
+SUR
+VCT
+VEN
+
+TableName
+Argentina
+Belize
+Brazil
+Colombia
+Costa Rica
+Cuba
+Dominica
+Dominican Republic
+Ecuador
+Grenada
+Guatemala
+Guyana
+Jamaica
+St. Lucia
+Mexico
+Peru
+Paraguay
+Suriname
+St. Vincent and the Grenadines
+Venezuela, RB
