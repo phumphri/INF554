@@ -56,6 +56,10 @@ const server = http.createServer((req, res) => {
         var file_name = path.join(process.cwd(), '/Assignment 04/static/js/main.js')
         var content_type = "application/javascript"
     }
+    else if (url.endsWith("/Assignment%2004/static/js/common_functions.js")) {
+        var file_name = path.join(process.cwd(), '/Assignment 04/static/js/common_functions.js')
+        var content_type = "application/javascript"
+    }
     else if (url.endsWith("/Assignment%2004/static/js/html_table.js")) {
         var file_name = path.join(process.cwd(), '/Assignment 04/static/js/html_table.js')
         var content_type = "application/javascript"
