@@ -30,7 +30,7 @@ Fall 2019
     </a>
 </p>
 <p>
-In order to avoid the "private" restrictions on repository "INF/a1-phumphri", all components found
+In order to avoid the "private" restrictions on repository "INF554/a1-phumphri", all components found
 in this repository were copied to a repository with public access.  This will enable the links in
 index.html to work.
 </p>
