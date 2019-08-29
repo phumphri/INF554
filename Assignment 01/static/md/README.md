@@ -22,12 +22,17 @@ Fall 2019
 
 ## Internet
 <p>
-    Assignment 1 has been published to the Internet hosted by Heroku.  
+    Assignment 1 has been published to the Internet hosted by Heroku.
 </p>
 <p>
     <a href="https://humphries-inf554.herokuapp.com/Assignment%2001/index.html" target="_blank">
         Assignment 1
     </a>
+</p>
+<p>
+In order to avoid the "private" restrictions on repository "INF/a1-phumphri", all components found
+in this repository were copied to a repository with public access.  This will enable the links in
+index.html to work.
 </p>
 
 ## Approach
@@ -130,8 +135,17 @@ Fall 2019
         href="https://docs.google.com/spreadsheets/d/1CeiVB_u3H8lGjD9KlxkKzsdhivRMPKF0D8XT2qAzt0Y/edit#gid=703773082">
         SA_Energy_Data
     </a>
-</p> 
+</p>    <p>
+    <a target="_blank" 
+        href="https://github.com/phumphri/INF554/blob/master/Assignment%2001/static/csv/South%20America%20Energy%20-%20Pivot.csv">
+        South America Energy - Pivot.csv
+    </a>
+</p>                     
 
-```python
-
-```
+## Image
+<p>
+    <a target="_blank" 
+        href="https://github.com/phumphri/INF554/blob/master/Assignment%2001/static/png/sae.PNG">
+        sae.PNG
+    </a>
+</p>
