@@ -1,0 +1,91 @@
+
+If start_time has two forward slashes
+	convert to Date Time "MM/DD/YYYY hh:mm:
+	convert to string "YYYY-MM-DD hh:mm:ss
+
+if bike_id is type string, parseInteger
+
+
+
+Data Profile
+
+MetroBikeShare_2016_Q3_trips.csv
+la_metro_gbfs_trips_Q1_2017.csv
+metro-bike-share-trips-2017-q3.csv
+trip_id		integer
+duration		integer
+start_time	Date Time	MM/DD/YYYY hh:mm	Not ISO 8601
+end_time		Date Time	MM/DD/YYYY  hh:mm	Not ISO 8601
+start_station_id	integer	
+start_lat		float
+start_lon		float
+end_station_id	integer
+end_lat		float
+end_lon		float
+bike_id		integer
+plan_duration	integer
+trip_route_category	string	no double quotation marks
+passholder_type	string	no double quotation marks
+
+
+
+la_metro_gbfs_trips_Q2_2017.csv
+metro-bike-share-trips-2016-q4.csv
+metro-bike-share-trips-2017-q4-v2.csv
+metro-bike-share-trips-2018-q1.csv
+metro-bike-share-trips-2018-q2.csv
+metro-bike-share-trips-2018-q3.csv
+metro-bike-share-trips-2018-q4.csv
+metro-bike-share-trips-2019-q1.csv
+metro-bike-share-trips-2019-q2.csv
+trip_id		integer	
+duration		integer
+start_time	string	double quotation marks	YYYY-MM-DD hh:mm:ss
+end_time		string	double quotation marks	YYYY-MM-DD hh:mm:ss
+start_station	integer
+start_lat		float
+start_lon		float
+end_station	integer
+end_lat		float
+end_lon		float
+bike_id		string	double quotation marks, sometimes integer
+plan_duration	integer
+trip_route_category	string	double quotation marks
+passholder_type	string	double quotation marks
+
+
+
+
+
+
+
+
+
+
+
+
+
+Volume in drive C has no label.
+ Volume Serial Number is EA03-50BD
+
+ Directory of C:\metrobike\csv
+
+08/29/2019  11:34 AM    <DIR>          .
+08/29/2019  11:34 AM    <DIR>          ..
+08/29/2019  10:39 AM         4,231,061 la_metro_gbfs_trips_Q1_2017.csv
+08/29/2019  10:39 AM         7,473,254 la_metro_gbfs_trips_Q2_2017.csv
+08/29/2019  10:40 AM         6,200,603 metro-bike-share-trips-2016-q4.csv
+08/29/2019  10:40 AM         8,976,038 la_metro_gbfs_trips_Q2_2017.csv
+08/29/2019  10:41 AM        10,047,399 metro-bike-share-trips-2017-q4-v2.csv
+08/29/2019  10:41 AM         9,357,375 metro-bike-share-trips-2018-q1.csv
+08/29/2019  10:41 AM        11,067,788 metro-bike-share-trips-2018-q2.csv
+08/29/2019  10:44 AM        13,628,706 metro-bike-share-trips-2018-q3.csv
+08/29/2019  10:44 AM        11,419,829 metro-bike-share-trips-2018-q4.csv
+08/29/2019  10:45 AM         8,853,818 metro-bike-share-trips-2019-q1.csv
+08/29/2019  10:45 AM         9,910,335 metro-bike-share-trips-2019-q2.csv
+08/29/2019  10:39 AM         6,960,167 MetroBikeShare_2016_Q3_trips.csv
+08/29/2019  11:34 AM                 0 temp.txt
+              13 File(s)    108,126,373 bytes
+               2 Dir(s)  809,279,041,536 bytes free
+
+
