@@ -1,4 +1,56 @@
 
+
+
+
+All:	calculate duration
+	change from start_station to start_station_id
+	change from end_station to end_station_id
+
+2016
+
+MetroBikeShare_2016_Q3_trips	duration in seconds and not minutes	
+				TODO: convert to start/end
+
+metro-bike-share-trips-2016-q4.csv	start/end_station instead of start/end_station_id
+
+2017
+
+la_metro_gbfs_trips_Q1_2017.csv	duration in seconds and not minutes
+
+la_metro_gbfs_trips_Q2_2017.csv	start/end_station instead of start/end_station_id
+
+metro-bike-share-trips-2017-q3	start/end_station instead of start/end_station_id
+
+metro-bike-share-trips-2017-q4-v2.csv	start/end_station instead of start/end_station_id
+				duration in seconds and not minutes
+
+2018
+
+metro-bike-share-trips-2018-q1.csv	start/end_station instead of start/end_station_id
+
+metro-bike-share-trips-2018-q2.csv	start/end_station instead of start/end_station_id
+
+metro-bike-share-trips-2018-q3.csv	start/end_station instead of start/end_station_id
+
+metro-bike-share-trips-2018-q4.csv	start/end_station instead of start/end_station_id
+
+2019
+
+metro-bike-share-trips-2019-q1.csv	start/end_station instead of start/end_station_id
+
+metro-bike-share-trips-2019-q2.csv	start/end_station instead of start/end_station_id
+
+
+
+
+
+
+
+
+
+
+
+
 If start_time has two forward slashes
 	convert to Date Time "MM/DD/YYYY hh:mm:
 	convert to string "YYYY-MM-DD hh:mm:ss

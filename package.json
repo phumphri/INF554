@@ -23,5 +23,9 @@
   "engines": {
     "node": "v12.7.0"
   },
-  "start": "node app.js"
+  "start": "node app.js",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "pg": "^7.12.1"
+  }
 }

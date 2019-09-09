@@ -1,0 +1,52 @@
+<p>metro-bike-share-stations-2019-07-01.csv</p>
+<table>
+    <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Delimiter</th>
+        <th>Format</th>
+        <th>Database Type</th>
+        <th>Database Constraint</th>
+    </tr>
+    <tr>
+        <td>Station_ID</td>
+        <td>integer</td>
+        <td></td>
+        <td></td>
+        <td>integer</td>
+        <td>Not Null, Primary Key</td>
+    </tr>
+    <tr>
+        <td>Station_Name</td>
+        <td>text</td>
+        <td></td>
+        <td></td>
+        <td>character variable (256)</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>Go_live_date</td>
+        <td>text</td>
+        <td></td>
+        <td>MM/DD/YYYY</td>
+        <td>timestamp without zone</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>Region</td>
+        <td>Text</td>
+        <td></td>
+        <td></td>
+        <td>character varying (32)</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td>text</td>
+        <td></td>
+        <td></td>
+        <td>character varying (32)</td>
+        <td>Not Null</td>
+    </tr>
+</table>
+<p>Station_ID 3000 is "Virtual Station", change Region from "N/A" to "Virtual Region".</p>

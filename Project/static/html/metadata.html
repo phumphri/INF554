@@ -1,0 +1,122 @@
+<table>
+    <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Delimiter</th>
+        <th>Format</th>
+        <th>Database Type</th>
+        <th>Database Constraint</th>
+    </tr>
+    <tr>
+        <td>trip_id</td>
+        <td>integer</td>
+        <td></td>
+        <td></td>
+        <td>integer</td>
+        <td>Not Null, Primary Key</td>
+    </tr>
+    <tr>
+        <td>duration</td>
+        <td>integer</td>
+        <td></td>
+        <td></td>
+        <td>integer</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>start_time</td>
+        <td>text</td>
+        <td>sometimes double quotation</td>
+        <td>"YYYY-MM-DD hh:mm:ss" or "MM/DD/YYYY hh:mm"</td>
+        <td>timestamp without zone</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>end_time</td>
+        <td>text</td>
+        <td>sometimes double quotation</td>
+        <td>"YYYY-MM-DD hh:mm:ss" or "MM/DD/YYYY hh:mm"</td>
+        <td>timestamp without zone</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>start_station_id</td>
+        <td>integer</td>
+        <td></td>
+        <td></td>
+        <td>integer</td>
+        <td>Not Null, Foreign Key stations.station_id</td>
+    </tr>
+    <tr>
+        <td>start_lat</td>
+        <td>float</td>
+        <td></td>
+        <td></td>
+        <td>double precision</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>start_lon</td>
+        <td>float</td>
+        <td></td>
+        <td></td>
+        <td>double precision</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>end_station_id</td>
+        <td>integer</td>
+        <td></td>
+        <td></td>
+        <td>integer</td>
+        <td>Not Null, Foreign Key stations.station_id</td>
+    </tr>
+    <tr>
+        <td>end_lat</td>
+        <td>float</td>
+        <td></td>
+        <td></td>
+        <td>double precision</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>end_lon</td>
+        <td>float</td>
+        <td></td>
+        <td></td>
+        <td>double precision</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>bike_id</td>
+        <td>text or integer</td>
+        <td>sometimes double quotation marks</td>
+        <td></td>
+        <td>integer</td>
+        <te>Not Null</te>
+    </tr>
+    <tr>
+        <td>plan_duration</td>
+        <td>integer</td>
+        <td></td>
+        <td></td>
+        <td>integer</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>trip_route_category</td>
+        <td>text</td>
+        <td>sometimes double quotation marks</td>
+        <td></td>
+        <td>character varying (32)</td>
+        <td>Not Null</td>
+    </tr>
+    <tr>
+        <td>passholder_type</td>
+        <td>text</td>
+        <td>sometimes double quotation marks</td>
+        <td></td>
+        <td>character varying (32)</td>
+        <td>Not Null</td>
+    </tr>
+</table>

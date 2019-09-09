@@ -115,6 +115,24 @@ const server = http.createServer((req, res) => {
         var content_type = "text/json"
     }
 
+    // Project
+    else if (url.endsWith("/Project/index.html")) {
+        var file_name = path.join(process.cwd(), '/Project/index.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Project/static/js/bar_chart.js")) {
+        var file_name = path.join(process.cwd(), '/Project/static/js/bar_chart.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Project/static/js/sae_hidden_or_visible.js")) {
+        var file_name = path.join(process.cwd(), '/Project/static/js/sae_hidden_or_visible.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Project/static/json/trips_by_year_month.json")) {
+        var file_name = path.join(process.cwd(), '/Project/static/json/trips_by_year_month.json')
+        var content_type = "text/json"
+    }
+    
     // Other applications.
     else if (url.endsWith(".html")) {
         var file_name = path.join(process.cwd(), '/templates/', url)
