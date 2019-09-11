@@ -15,7 +15,7 @@ const server = http.createServer((req, res) => {
         url = "index.html"
     }
 
-    console.log("url:  " + url)
+    console.log("\n\n url:  " + url)
 
     // HTTP 404 with message.
     if (url.endsWith("oops.html")) {
@@ -42,6 +42,34 @@ const server = http.createServer((req, res) => {
         var file_name = path.join(process.cwd(), '/Assignment 02/index.html')
         var content_type = "text/html"
     }
+    else if (url.endsWith("/Assignment%2002/static/svg/sae_2.svg")) {
+        var file_name = path.join(process.cwd(), '/Assignment 02/static/svg/sae_2.svg')
+        process.stdout.write("\n\nAssignment 2 svg:  " + file_name)
+        var content_type = "image/svg+xml"
+    }
+
+    // Assignment 3
+    else if (url.endsWith("/Assignment%2003/index.html")) {
+        var file_name = path.join(process.cwd(), '/Assignment 03/index.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Assignment%2003/static/svg/infographic_1.svg")) {
+        var file_name = path.join(process.cwd(), '/Assignment 03/static/svg/infographic_1.svg')
+        var content_type = "image/svg+xml"
+    }
+    else if (url.endsWith("/Assignment%2003/static/svg/infographic_2.svg")) {
+        var file_name = path.join(process.cwd(), '/Assignment 03/static/svg/infographic_2.svg')
+        var content_type = "image/svg+xml"
+    }
+    else if (url.endsWith("/Assignment%2003/static/js/sae_hidden_or_visible.js")) {
+        var file_name = path.join(process.cwd(), '/Assignment 03/static/js/sae_hidden_or_visible.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Assignment%2003/static/css/viterbi.css")) {
+        var file_name = path.join(process.cwd(), '/Assignment 03/static/css/viterbi.css')
+        var content_type = "text/css"
+    }
+
 
     // Assignment 4
     else if (url.endsWith("/Assignment%2004/index.html")) {
@@ -147,7 +175,8 @@ const server = http.createServer((req, res) => {
         var content_type = "application/javascript"
     }
     else if (url.endsWith(".svg")) {
-        var file_name = path.join(process.cwd(), '/static/img/', url)
+        var file_name = path.join(process.cwd(), '/static/svg/', url)
+        process.stdout.write("\n\nGeneric svg, should not be getting here.")
         var content_type = "image/svg+xml"
     }
     else
@@ -161,6 +190,8 @@ const server = http.createServer((req, res) => {
 
 // Return the response for the request file or 404 if not found.
 function return_file(req, res, file_name, content_type) {
+
+    process.stdout.write("\n\nreturn_file Looking for file " + file_name)
 
     if (fs.existsSync(file_name)) {
 
@@ -177,6 +208,7 @@ function return_file(req, res, file_name, content_type) {
             return
         })
     } else {
+        process.stdout.write("\n\n return_file could not find file " + file_name)
         return_404(req, res, file_name)
         return
     }

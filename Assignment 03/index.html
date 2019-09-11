@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Visualization Wheel</title>
+
+    <!-- Bootstrap -->
+
+    <!-- Metadata -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Assignment_7, humphries">
+    <meta name="Author" content="Patrick Humphries">
+    <meta http-equiv="charset" content="utf-8">
+    <meta http-equiv="content-type" content="text/html">
+
+    <!-- Data Driven Documents -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- Application Scripts -->
+    <script type="text/javascript" src="/Assignment%2003/static/js/sae_hidden_or_visible.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- U.S.C. Decorations -->
+    <link rel="stylesheet" type="text/css" href="/Assignment%2003/static/css/viterbi.css" />
+    <link rel="shortcut icon" href="https://www.usc.edu/favicon.ico" />
+    <link rel="favicon" href="https://www.usc.edu/favicon.ico" />
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <div class="row cardinal_background">
+            <div class="col-sm-3 cardinal project_name">
+                <img src="https://vsoeapp1.vsoe.usc.edu/images/USC-Bar-cardinal.gif"><br />
+            </div>
+            <div class="col-sm-6 cardinal_background project_name">Visualization Wheel</div>
+            <div class="col-sm-3 cardinal_background bootcamp_name">
+                <p class="gold">Patrick Humphries, M.B.A.<br />
+                    INF 554: Information Visualization<br />
+                    Fall 2019
+                </p>
+            </div>
+        </div>
+
+        <!-- Hide or unhide rows. -->
+        <div id="navigation" class=row>
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('assignment_row')">
+                    Assignment
+                </button>
+                <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('infographic_1_row')">
+                    Infographic 1
+                </button>
+                <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('infographic_2_row')">
+                    Infographic 2
+                </button>
+                <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('all')">
+                    All
+                </button>
+            </div>
+        </div>
+
+        <!-- This row displays assignment, approach, provenance, and links to code. -->
+        <div id="assignment_row" class="row">
+
+            <div class="col-sm-3">
+                <fieldset>
+                    <legend>Assignment</legend>
+                    <p><b>Assignment 3:  Critiquing visualizations in news media.</b></p>
+                    <p>Find 2 different infographics on the same subject and compare them using the visualization wheel.</p>
+                    <p>What do they do well, what do they do poorly?</p>
+                    <p>Suggest improvements for the things they do poorly.</p>
+                    <p>Document in HTML</p>
+                </fieldset>
+            </div>
+
+            <div class="col-sm-3">
+                <fieldset>
+                    <legend>Approach</legend>
+                    <p>A template for the Visualization Wheel  was created.</p>
+                    <p>A Visualization Wheel was created based on the template.</p>
+                    <p>TODO:  Describe the two infographics.</p>
+                    <p></p>
+            </div>
+
+            <div class="col-sm-3">
+                <fieldset>
+                    <legend>Provenance</legend>
+                    <p>Infographic 1 Citation:  </p>
+                    <p>Infographhic 2 Citation</p>
+                </fieldset>
+            </div>
+
+            <div class="col-sm-3">
+                <fieldset>
+
+                    <legend>GitHub</legend>
+                    <p><a target="_blank" href="https://github.com/phumphri/INF554/tree/master/Assignment%2003">Code and Data</a></p>
+
+                </fieldset>
+            </div>
+
+        </div>
+
+        <div id="infographic_1_row" class="row">
+
+            <div iclass="col-sm-4 table-responsive">
+                <fieldset class="padding_5px">
+                    <legend>Infographic 1</legend>
+                    <img class="embed-responsize-item" src="./Assignment%2003/static/svg/infographic_1.svg" alt="WTF is infographic_1.svg?">
+
+                </fieldset>
+            </div>
+        </div>
+
+        <div id="infographic_2_row" class="row">
+            <div class="col-sm-3">
+                <fieldset class="padding_5px">
+                    <legend>Infographic 2</legend>
+                    <img class="embed-responsize-item" src="./Assignment%2003/static/svg/infographic_2.svg" alt="WTF is infographic_2.svg?">
+                </fieldset>
+            </div>
+
+        </div>
+
+
+    </div>
+</body>
+
+</html>
