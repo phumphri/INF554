@@ -53,6 +53,14 @@ const server = http.createServer((req, res) => {
         var file_name = path.join(process.cwd(), '/Assignment 03/index.html')
         var content_type = "text/html"
     }
+    else if (url.endsWith("/Assignment%2003/static/png/NYTimes.PNG")) {
+        var file_name = path.join(process.cwd(), '/Assignment 03/static/png/NYTimes.PNG')
+        var content_type = "image/png"
+    }
+    else if (url.endsWith("/Assignment%2003/static/png/Forbes.PNG")) {
+        var file_name = path.join(process.cwd(), '/Assignment 03/static/png/Forbes.PNG')
+        var content_type = "image/png"
+    }
     else if (url.endsWith("/Assignment%2003/static/svg/infographic_1.svg")) {
         var file_name = path.join(process.cwd(), '/Assignment 03/static/svg/infographic_1.svg')
         var content_type = "image/svg+xml"
