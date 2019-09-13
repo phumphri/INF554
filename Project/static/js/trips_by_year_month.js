@@ -9,9 +9,9 @@ if (false) {
     config = {
         host: 'postgres.cx7bhejrlrq0.us-east-2.rds.amazonaws.com',
         port: 5432,
-        user: 'postgres',
-        password: 'postgres',
-        database: 'postgres'
+        user: 'xxxxxxxx',
+        password: 'xxxxxxxx',
+        database: 'xxxxxxxx'
     }
 } else {
     config = {
