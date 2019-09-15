@@ -156,8 +156,68 @@ const server = http.createServer((req, res) => {
         var file_name = path.join(process.cwd(), '/Project/index.html')
         var content_type = "text/html"
     }
-    else if (url.endsWith("/Project/static/js/bar_chart.js")) {
-        var file_name = path.join(process.cwd(), '/Project/static/js/bar_chart.js')
+    else if (url.endsWith("/Project/static/html/header.html")) {
+        var file_name = path.join(process.cwd(), '/Project/static/html/header.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Project/static/html/assignment.html")) {
+        var file_name = path.join(process.cwd(), '/Project/static/html/assignment.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Project/static/html/trips.html")) {
+        var file_name = path.join(process.cwd(), '/Project/static/html/trips.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Project/static/html/riders.html")) {
+        var file_name = path.join(process.cwd(), '/Project/static/html/riders.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Project/static/html/stations.html")) {
+        var file_name = path.join(process.cwd(), '/Project/static/html/stations.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Project/static/html/bikes.html")) {
+        var file_name = path.join(process.cwd(), '/Project/static/html/bikes.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Project/static/html/media.html")) {
+        var file_name = path.join(process.cwd(), '/Project/static/html/media.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Project/static/html/summary.html")) {
+        var file_name = path.join(process.cwd(), '/Project/static/html/summary.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Project/static/css/metro_bike_share.css")) {
+        var file_name = path.join(process.cwd(), '/Project/static/css/metro_bike_share.css')
+        var content_type = "text/css"
+    }
+    else if (url.endsWith("/Project/static/js/trips.js")) {
+        var file_name = path.join(process.cwd(), '/Project/static/js/trips.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Project/static/js/riders.js")) {
+        var file_name = path.join(process.cwd(), '/Project/static/js/riders.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Project/static/js/stations.js")) {
+        var file_name = path.join(process.cwd(), '/Project/static/js/stations.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Project/static/js/bikes.js")) {
+        var file_name = path.join(process.cwd(), '/Project/static/js/bikes.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Project/static/js/media.js")) {
+        var file_name = path.join(process.cwd(), '/Project/static/js/media.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Project/static/js/summary.js")) {
+        var file_name = path.join(process.cwd(), '/Project/static/js/summary.js')
+        var content_type = "application/javascript"
+    }
+    else if (url.endsWith("/Project/static/js/w3-include-html.js")) {
+        var file_name = path.join(process.cwd(), '/Project/static/js/w3-include-html.js')
         var content_type = "application/javascript"
     }
     else if (url.endsWith("/Project/static/js/sae_hidden_or_visible.js")) {

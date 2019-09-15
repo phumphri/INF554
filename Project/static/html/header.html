@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <!-- Bootstrap -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Metro Bike Share Decorations -->
+    <link rel="stylesheet" type="text/css" href="/Project/static/css/metro_bike_share.css" />
+</head>
+
+<body>
+    <div class="row cardinal_background">
+        <div class="col-sm-3 cardinal project_name">
+            <img src="https://vsoeapp1.vsoe.usc.edu/images/USC-Bar-cardinal.gif"><br />
+        </div>
+        <div class="col-sm-6 cardinal_background project_name">
+            Metro Bike Share
+
+        </div>
+        <div class="col-sm-3 cardinal_background bootcamp_name">
+            <p class="gold">Patrick Humphries, M.B.A.<br />
+                INF 554: Information Visualization<br />
+                Fall 2019
+            </p>
+        </div>
+    </div>
+
+    <!-- Hide or unhide rows. -->
+    <div id="navigation" class=row>
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('assignment')">
+                Assignment
+            </button>
+            <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('summary')">
+                Summary
+            </button>
+            <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('trips')">
+                Trips
+            </button>
+            <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('riders')">
+                Riders
+            </button>
+            <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('stations')">
+                Stations
+            </button>
+            <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('bikes')">
+                Bikes
+            </button>
+            <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('media')">
+                Media
+            </button>
+        </div>
+    </div>
+</body>
+
+</html>

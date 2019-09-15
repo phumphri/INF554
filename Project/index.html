@@ -3,21 +3,22 @@
 
 <head>
 
-    <title>South America Energy </title>
+    <title>Metro Bike Share</title>
 
     <!-- Bootstrap -->
     <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
+    <!-- Metro Bike Share Decorations -->
+    <link rel="stylesheet" type="text/css" href="/Project/static/css/metro_bike_share.css" />
+
     <!-- U.S.C. Decorations -->
-    <!-- <link rel="stylesheet" type="text/css" href="/Assignment%2007/static/css/viterbi.css" /> -->
-    <link rel="stylesheet" type="text/css" href="https://humphries-inf554.s3-us-west-1.amazonaws.com/viterbi_3.css" />
     <link rel="shortcut icon" href="https://www.usc.edu/favicon.ico" />
     <link rel="favicon" href="https://www.usc.edu/favicon.ico" />
 
     <!-- Metadata -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="sandbox, humphries">
+    <meta name="keywords" content="huang, cheng, humphries">
     <meta name="Author" content="Patrick Humphries">
     <meta http-equiv="charset" content="utf-8">
     <meta http-equiv="content-type" content="text/html">
@@ -25,9 +26,9 @@
     <!-- Data Driven Documents -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
 
-    <!-- Bar Chart Scripts -->
-    <script type="text/javascript" src="/Project/static/js/bar_chart.js"></script>
+    <!-- Webpage Manipulation Scripts -->
     <script type="text/javascript" src="/Project/static/js/sae_hidden_or_visible.js"></script>
+    <script type="text/javascript" src="/Project/static/js/w3-include-html.js"></script>
 
     <!-- Bootstrap -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -36,236 +37,19 @@
 
 </head>
 
-<body onload='initialize_chart()'>
+<body onload='{include_HTML()}'>
 
     <div class="container-fluid">
 
-        <div class="row cardinal_background">
-            <div class="col-sm-3 cardinal project_name">
-                <img src="https://vsoeapp1.vsoe.usc.edu/images/USC-Bar-cardinal.gif"><br />
-            </div>
-            <div class="col-sm-6 cardinal_background project_name">
-                Metro Bike Share
+        <div w3-include-html="/Project/static/html/header.html"></div>
 
-            </div>
-            <div class="col-sm-3 cardinal_background bootcamp_name">
-                <p class="gold">Patrick Humphries, M.B.A.<br />
-                    INF 554: Information Visualization<br />
-                    Fall 2019
-                </p>
-            </div>
+        <div w3-include-html="/Project/static/html/assignment.html"></div>
+
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe id="iframe" class="embed-responsive-item hidden" src="/Project/static/html/trips.html">WTF is my trips.html?</iframe>
         </div>
 
-        <!-- Hide or unhide rows. -->
-        <div id="navigation" class=row>
-            <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('assignment')">
-                    Assignment
-                </button>
-                <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('bar_chart')">
-                    Bar Chart
-                </button>
-                <button type="button" class="btn btn-primary cardinal_background gold_color" onclick="sae_hidden_or_visible('all')">
-                    All
-                </button>
-            </div>
-        </div>
 
-        <!-- This row displays assignment, approach, provenance, and links to code. -->
-        <div id="assignment" class="row">
-            <div class="col-sm-3">
-                <fieldset>
-                    <legend>Assignment</legend>
-                    <ul>
-                        <li>Course: INF 554: Information Visualization</li>
-                        <li>Semester: Fall 2019</li>
-                        <li>Section: 32457</li>
-                        <li>Project: Metro Bike Share</li>
-                        <li>Team Members
-                            <ul>
-                                <li>Patrick Humphries, M.B.A.</li>
-                                <ul>
-                                    <li>USC ID: 7097-1087-72</li>
-                                    <li>USC Email: pvhumphr@usc.edu
-                                </ul>
-                                <li>Team Member 2</li>
-                                <ul>
-                                    <li>USC ID: 9999-9999-99</li>
-                                    <li>USC Email: email@usc.edu
-                                </ul>
-                                <li>Team Member 3</li>
-                                <ul>
-                                    <li>USC ID: 9999-9999-99</li>
-                                    <li>USC Email: email@usc.edu
-                                </ul>
-                            </ul>
-                        </li>
-                    </ul>
-                </fieldset>
-            </div>
-            <div class="col-sm-3">
-                <fieldset>
-                    <legend>Approach</legend>
-                    <p><a href="https://bikeshare.metro.net">Metro Bike Share</a> is a year-round bicycle rental service in the metropolitant Los Angeles area.</p>
-                    <p>This project endeavors to analyze the data provided this enterprise. It is unknown where this analysis will lead. However, the analysis starts by visualizing the answers to the following questions:</p>
-                    <ul>
-                        <li>How many trips have there been?</li>
-                        <li>What is the trend in the number of trips?</li>
-                        <li>Are the trips seasonal?</li>
-                        <li>Trips occur during what time of day?</li>
-                        <li>What are the kinds of trips?</li>
-                        <li>What is the number of trips per type of passholder?</li>
-                        <li>What are the most popular routes?</li>
-                        <li>What is the typical duration of a trip?</li>
-                    </ul>
-                    <p>Answers to these questions will constitute the first step in the understanding Metro Bike Share.</p>
-            </div>
-            <div class="col-sm-4">
-                <fieldset>
-                    <legend>Provenance</legend>
-                    <p>The following files were downloaded from <a href="https://bikeshare.metro.net/about/data" target="_blank">Metro Bike Share</a></p>
-                    <p>
-                        <p><b>Trip Files</b></p>
-                        <table class="table table-striped text-right">
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:39 AM</td>
-                                <td> 4,231,061</td>
-                                <td>la_metro_gbfs_trips_Q1_2017.csv</td>
-                            </tr>
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:39 AM</td>
-                                <td> 7,473,254</td>
-                                <td>la_metro_gbfs_trips_Q2_2017.csv</td>
-                            </tr>
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:40 AM</td>
-                                <td> 6,200,603</td>
-                                <td>metro-bike-share-trips-2016-q4.csv</td>
-                            </tr>
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:40 AM</td>
-                                <td> 8,976,038</td>
-                                <td>metro-bike-share-trips-2017-q3.csv</td>
-                            </tr>
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:41 AM</td>
-                                <td>10,047,399</td>
-                                <td>metro-bike-share-trips-2017-q4-v2.csv</td>
-                            </tr>
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:41 AM</td>
-                                <td> 9,357,375</td>
-                                <td>metro-bike-share-trips-2018-q1.csv</td>
-                            </tr>
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:41 AM</td>
-                                <td>11,067,788</td>
-                                <td>metro-bike-share-trips-2018-q2.csv</td>
-                            </tr>
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:44 AM</td>
-                                <td>13,628,706</td>
-                                <td>metro-bike-share-trips-2018-q3.csv</td>
-                            </tr>
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:44 AM</td>
-                                <td>11,419,829</td>
-                                <td>metro-bike-share-trips-2018-q4.csv</td>
-                            </tr>
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:45 AM</td>
-                                <td> 8,853,818</td>
-                                <td>metro-bike-share-trips-2019-q1.csv</td>
-                            </tr>
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:45 AM</td>
-                                <td> 9,910,335</td>
-                                <td>metro-bike-share-trips-2019-q2.csv</td>
-                            </tr>
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>10:39 AM</td>
-                                <td> 6,960,167</td>
-                                <td>MetroBikeShare_2016_Q3_trips.csv</td>
-                            </tr>
-                        </table>
-                        <p>Note: File naming is inconsistent.</p>
-                        <p><b>Station Files</b></p>
-                        <table class="table table-striped text-right">
-                            <tr>
-                                <td>08/29/2019</td>
-                                <td>01:57 PM</td>
-                                <td>10,708</td>
-                                <td>metro-bike-share-stations-2019-07-01.csv</td>
-                            </tr>
-                        </table>
-                </fieldset>
-            </div>
-            <div class="col-sm-2">
-                <fieldset>
-                    <legend>Repository</legend>
-                    <p><a href="https://github.com/phumphri/INF554/tree/master/Project" target="_blank">GitHub</a></p>
-                </fieldset>
-            </div>
-        </div>
-
-        <!-- This row shows series by country over time. -->
-        <div id="bar_chart" class="row">
-            <div class="col-sm-2">
-                <fieldset class="padding_5px">
-                    <legend>Selection</legend>
-                    <label>Year</label>
-                    <br />
-                    <div class="btn_group_vertical btn-group-sm">
-                        <input type=radio name="selected_year" onclick="update_chart()" value="2016" checked /> 2016
-                        <br />
-                        <input type=radio name="selected_year" onclick="update_chart()" value="2017" /> 2017
-                        <br />
-                        <input type=radio name="selected_year" onclick="update_chart()" value="2018" /> 2018
-                        <br />
-                        <input type=radio name="selected_year" onclick="update_chart()" value="2019" /> 2019
-                        <br />
-                        <input type=radio name="selected_year" onclick="update_chart()" value="all" /> All
-                    </div>
-                    <label>Order</label>
-                    <br />
-                    <div class="btn_group_vertical btn-group-sm">
-                        <input type=radio name="selected_order" onclick="update_chart()" value="Year Month" checked /> Year Month
-                        <br />
-                        <input type=radio name="selected_order" onclick="update_chart()" value="Ascending" /> Ascending Value
-                        <br />
-                        <input type=radio name="selected_order" onclick="update_chart()" value="Descending" /> Descending Value
-                    </div>
-                    <label>Filter</label>
-                    <br />
-                    <div class="btn_group_vertical btn-group-sm">
-                        <input type=radio name="selected_filter" onclick="update_chart()" value="Top" /> Top 5
-                        <br />
-                        <input type=radio name="selected_filter" onclick="update_chart()" value="Bottom" /> Bottom 5
-                        <br />
-                        <input type=radio name="selected_filter" onclick="update_chart()" value="All" checked /> All
-                    </div>
-                </fieldset>
-            </div>
-            <div class="col-sm-10">
-                <fieldset id="bar_chart_fieldset" class="padding_5px">
-                    <legend>Trips by Year, Month</legend>
-                    <!-- Division containing bar chart will be placed here by function initialize(). -->
-                </fieldset>
-            </div>
-
-        </div>
     </div>
 
 </body>

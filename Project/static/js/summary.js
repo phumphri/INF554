@@ -1,6 +1,4 @@
 // Declare global variables.
-
-
 var g = {
     d: null,    // All data.
     f: null,    // Filter data.
@@ -70,6 +68,7 @@ function set_global_variables() {
 
 function append_svg() {
 
+    console.log(" ")
     console.log("Selecting bar_chart_fieldset")
 
     // Find the fieldset that will contain the svg.
@@ -84,6 +83,7 @@ function append_svg() {
 
     // Update the global svg reference.
     g.svg = svg
+    console.log(" ")
 }
 
 function calculate_x_scale() {
@@ -638,7 +638,7 @@ function adjust_font_sizes() {
     }
 }
 
-function update_chart() {
+function update() {
 
     console.log("Updating chart.")
 
@@ -709,7 +709,7 @@ function update_chart() {
 
 }
 
-function initialize_chart() {
+function initialize() {
 
     console.log("Initializing chart.")
 
@@ -748,7 +748,7 @@ function initialize_chart() {
             adjust_font_sizes()
 
             // Update (redraw) the chart when the window is resized.
-            window.addEventListener('resize', update_chart)
+            window.addEventListener('resize', update)
 
         })
         .catch(console.log.bind(console))
