@@ -19,20 +19,17 @@
     <li>Project:  Metro Bike Share</li>
     <li>Team Members
         <ul>
+            <li>Jiaying Huang, B.E.C.S.T</li>
+            <ul>
+                <li>USC Email:  huangjia@usc.edu
+            </ul>
+            <li>Ying Cheng</li>
+            <ul>
+                <li>USC Email:  chen059@usc.edu
+            </ul>
             <li>Patrick Humphries, M.B.A.</li>
             <ul>
-                <li>USC ID:  7097-1087-72</li>
                 <li>USC Email:  pvhumphr@usc.edu
-            </ul>
-            <li>Team Member 2</li>
-            <ul>
-                <li>USC ID:  9999-9999-99</li>
-                <li>USC Email:  email@usc.edu
-            </ul>
-            <li>Team Member 3</li>
-            <ul>
-                <li>USC ID:  9999-9999-99</li>
-                <li>USC Email:  email@usc.edu
             </ul>
         </ul>
     </li>
@@ -54,6 +51,67 @@
 <p>Answers to these questions will constitute the first step in the understanding Metro Bike Share.</p>
     
 
+
+<h3>Proposed Framework</h3>
+<p style="color:#990000">Entry 2019-9-15 by Patrick</p>
+<p>
+    File <code>index.html</code> will use an <code>iframe</code> to display standalone webpages.</p>
+<p>
+    Each webpage will address a specific topic.  Initial topics are organized by major
+    attributes:
+</p>
+<ul>
+    <li>Assignment
+        <ul>
+            <li>Assignment</li>
+            <li>Approach</li>
+            <li>Provenance</li>
+            <li>Repository</li>
+        </ul>
+    </li>
+    <li>Summary
+        <ul>
+            <li>Public citations of how MBS was started and its evolution.</li>
+            <li>Use timeline visualization to show the major milestones.</li>
+        </ul>
+    </li>
+    <li>Trips
+        <ul>
+            <li>How many trips have there been?</li>
+            <li>What is the trend?</li>
+            <li>What is the seasonality?</li>
+            <li>Use bar chart for the visualization.</li>
+        </ul>
+    </li>
+    <li>Riders
+        <ul>
+            <li>How many of each passholder type?</li>
+            <li>What is the trend of passholder types?</li>
+            <li>Use a streamgraph to show types and numbers.</li>
+        </ul>
+    </li>
+    <li>Stations
+        <ul>
+            <li>What are the most popular stations?</li>
+            <li>What are the most popular routes?</li>
+            <li>Use Leaflet to show stations and routes.</li>
+        </ul>
+    </li>
+    <li>Bikes
+        <ul>
+            <li>What is maximum percentage of bikes in use?</li>
+            <li>Will the demand for bikes likely to exceed the number of bikes?</li>
+            <li>A timeseries visualization for percentages and a line chart for projection.</li>
+        </ul>
+    </li>
+    <li>Media
+        <ul>
+            <li>What is the sentiment on Twitter?</li>
+            <li>A streamgraph of positive, neutral, negative tweets.</li>
+        </ul>
+    </li>
+</ul>
+        
 
 <h2>Data Acquisition</h2>
 <p style="color:#990000">Entry 2019-08-29 by Patrick</p>
