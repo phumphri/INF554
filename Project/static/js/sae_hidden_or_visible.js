@@ -14,28 +14,28 @@ function sae_hidden_or_visible(row_id) {
             assignment.className = "row visible"
             break
         case "summary":
-            document.getElementById("iframe").src = "/Project/static/html/summary.html"
-            iframe.className = "row visible"
+            iframe.src = "/Project/static/html/summary.html"
+            iframe.className = "embeded-responsive-item visible"
             break
         case "trips":
-            document.getElementById("iframe").src = "/Project/static/html/trips.html"
-            iframe.className = "row visible"
+            iframe.src = "/Project/static/html/trips.html"
+            iframe.className = "embeded-responsive-item visible"
             break
         case "riders":
-            document.getElementById("iframe").src = "/Project/static/html/riders.html"
-            iframe.className = "row visible"
+            iframe.src = "/Project/static/html/riders.html"
+            iframe.className = "embeded-responsive-item visible"
             break
         case "stations":
-            document.getElementById("iframe").src = "/Project/static/html/stations.html"
-            iframe.className = "row visible"
+            iframe.src = "/Project/static/html/stations.html"
+            iframe.className = "embeded-responsive-item visible"
             break
         case "bikes":
-            document.getElementById("iframe").src = "/Project/static/html/bikes.html"
-            iframe.className = "row visible"
+            iframe.src = "/Project/static/html/bikes.html"
+            iframe.className = "embeded-responsive-item visible"
             break
         case "media":
-            document.getElementById("iframe").src = "/Project/static/html/media.html"
-            iframe.className = "row visible"
+            iframe.src = "/Project/static/html/media.html"
+            iframe.className = "embeded-responsive-item visible"
             break
         default:
             assignment.className = "row visible"
