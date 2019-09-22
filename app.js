@@ -152,8 +152,12 @@ const server = http.createServer((req, res) => {
     }
 
     // Project Proposal
-    else if (url.endsWith("/Project%20Proposal/index.html")) {
+    else if (url.endsWith("/Project%20Proposal%201/index.html")) {
         var file_name = path.join(process.cwd(), '/Project Proposal/metro_bike_share.sozi.html')
+        var content_type = "text/html"
+    }
+    else if (url.endsWith("/Project%20Proposal%202/index.html")) {
+        var file_name = path.join(process.cwd(), '/Project Proposal/metro_bike_share_2.sozi.html')
         var content_type = "text/html"
     }
 
