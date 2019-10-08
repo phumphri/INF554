@@ -518,7 +518,7 @@ function adjust_font_sizes() {
         g.svg.select("#x_axis_label").style("font-size", "small")
     } else {
         g.svg.selectAll(".tick").style("font-size", "xx-small")
-        g.svg.select("#y_axis_label").style("font-size", "xx-small")
+        g.svg.select("#y_axis_label").style("font-size",  "xx-small")
         g.svg.select("#x_axis_label").style("font-size", "xx-small")
     }
 
