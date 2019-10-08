@@ -513,9 +513,9 @@ function adjust_font_sizes() {
     console.log("Adjusting font size.")
 
     if (g.left_margin > 55) {
-        g.svg.selectAll(".tick").attr("font-size", "14")
-        g.svg.select("#y_axis_label").attr("font-size", "14")
-        g.svg.select("#x_axis_label").attr("font-size", "14")
+        g.svg.selectAll(".tick").style("font-size", "small")
+        g.svg.select("#y_axis_label").style("font-size", "small")
+        g.svg.select("#x_axis_label").style("font-size", "small")
     } else {
         g.svg.selectAll(".tick").attr("font-size", "10")
         g.svg.select("#y_axis_label").attr("font-size", "10")
